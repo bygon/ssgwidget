@@ -95,7 +95,7 @@ public class CopyOfSEAdWidget extends AppWidgetProvider {
 		PendingIntent tPIntent = PendingIntent.getBroadcast(context, 0, tintent, 0);	//START 이동
 
 		views.setOnClickPendingIntent(R.id.menuBtn, mPIntent);
-		views.setOnClickPendingIntent(R.id.srcBtn, sPIntent);
+//		views.setOnClickPendingIntent(R.id.srcBtn, sPIntent);
 		views.setOnClickPendingIntent(R.id.strBtn, tPIntent);
 
 		for (int appWidgetId : appWidgetIds) {
