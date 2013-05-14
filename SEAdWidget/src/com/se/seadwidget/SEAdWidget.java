@@ -22,11 +22,11 @@ public class SEAdWidget extends AppWidgetProvider {
 	private static final String TAG = "SEAdWidget";
 	private Context context;
 	private static int idx = 0;
+	private static int point = 0;
 	
 	private Button menu;
 	private Boolean isChecked = false;
 
-	private static final int CUSTOMER_MANUAL = 1;	//메뉴오픈
 	private static final int SEARCH_AREA = 2;		//매장찾기
 	private static boolean ADING = false;			//광고 시작 변수
 	private static Vector imagev;					//이미지 넣을 벡터
@@ -44,7 +44,7 @@ public class SEAdWidget extends AppWidgetProvider {
 
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-		Toast.makeText(context, "onUpdate", Toast.LENGTH_SHORT).show();
+		//Toast.makeText(context, "onUpdate", Toast.LENGTH_SHORT).show();
 		
 		imagev = new Vector();
 		imagev.add(R.drawable.adimg01);
@@ -64,14 +64,14 @@ public class SEAdWidget extends AppWidgetProvider {
 
 	@Override
 	public void onDeleted(Context context, int[] appWidgetIds) {
-		Toast.makeText(context, "onDeleted", Toast.LENGTH_SHORT).show();
+		//Toast.makeText(context, "onDeleted", Toast.LENGTH_SHORT).show();
 		
 		super.onDeleted(context, appWidgetIds);
 	}
 
 	@Override
 	public void onDisabled(Context context) {
-		Toast.makeText(context, "onDisabled", Toast.LENGTH_SHORT).show();
+		//Toast.makeText(context, "onDisabled", Toast.LENGTH_SHORT).show();
 		
 		super.onDisabled(context);
 	}
@@ -80,9 +80,9 @@ public class SEAdWidget extends AppWidgetProvider {
 	 * UI 설정 이벤트 설정
 	 */
 	public void initUI(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-		Toast.makeText(context, "initUI", Toast.LENGTH_SHORT).show();
+		//Toast.makeText(context, "initUI", Toast.LENGTH_SHORT).show();
 		
-		RemoteViews views;
+		RemoteViews views;		
 		
 		if(isChecked){
 			views = new RemoteViews(context.getPackageName(), R.layout.widget_main_r);
@@ -91,11 +91,13 @@ public class SEAdWidget extends AppWidgetProvider {
 			views = new RemoteViews(context.getPackageName(), R.layout.widget_main);
 			isChecked = true;
 		}
-		
-				
+						
 		if(ADING){	//계정등록 한다면.... 광고 넣어준다.
-			idx++;			
+			idx++;
+			point++;	//이미지 바뀔때마다 포인트를 줘볼까?
+						
 			views.setImageViewResource(R.id.addImage, (Integer) imagev.get(idx % 4));	//이미지 4개니까 4모듈러로 5초에 한번씩 뿌려준다.
+			Toast.makeText(context, "Point > " + point , Toast.LENGTH_SHORT).show();
 		}else{
 			idx = 0;
 			views.setImageViewResource(R.id.addImage, R.drawable.initimg);			
@@ -113,7 +115,7 @@ public class SEAdWidget extends AppWidgetProvider {
 		PendingIntent tPIntent = PendingIntent.getBroadcast(context, 0, tintent, 0);	//START 이동
 
 		views.setOnClickPendingIntent(R.id.menuBtn, mPIntent);
-		views.setOnClickPendingIntent(R.id.srcBtn, sPIntent);
+		views.setOnClickPendingIntent(R.id.menu1, sPIntent);
 		views.setOnClickPendingIntent(R.id.strBtn, tPIntent);
 
 		for (int appWidgetId : appWidgetIds) {
@@ -131,7 +133,7 @@ public class SEAdWidget extends AppWidgetProvider {
 		String action = intent.getAction();
 		Log.d(TAG, "onReceive() action = " + action);
 		
-		Toast.makeText(context, "onReceive action = " + action, Toast.LENGTH_SHORT).show();
+		//Toast.makeText(context, "onReceive action = " + action, Toast.LENGTH_SHORT).show();
 
 		// Default Recevier
 		if (AppWidgetManager.ACTION_APPWIDGET_ENABLED.equals(action)) {
@@ -158,7 +160,6 @@ public class SEAdWidget extends AppWidgetProvider {
 			// 등록한 알람 제거
 			removePreviousAlarm();
 		} else if (Const.ACTION_MENU.equals(action)) { // Custom Recevier
-			//callActivity(context, CUSTOMER_MANUAL);
 			removePreviousAlarm();		
 			
 			isChecked = intent.getBooleanExtra("CHECKED", false);
@@ -192,17 +193,9 @@ public class SEAdWidget extends AppWidgetProvider {
 	 * Activity 호출 (Intent.FLAG_ACTIVITY_NEW_TASK)
 	 */
 	private void callActivity(Context context, int pageIdx) {
-		Log.d(TAG, "callActivity()");
-
 		Intent intent = null;
 
 		switch (pageIdx) {
-			case CUSTOMER_MANUAL:
-				intent = new Intent("com.se.seadwidget.ACTION_MENU");
-				intent.putExtra("CHECKED", isChecked);
-
-				break;
-	
 			case SEARCH_AREA:
 				intent = new Intent("com.se.seadwidget.ACTION_SEARCH");
 				break;

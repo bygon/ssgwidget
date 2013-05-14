@@ -23,17 +23,17 @@
 
         <Button
             android:id="@+id/strBtn"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_alignParentTop="true"
-            android:layout_marginRight="3dp"
+            android:layout_marginRight="13dp"
             android:layout_toLeftOf="@+id/menuBtn"
             android:background="@drawable/startbtn" />
         
         <Button
             android:id="@+id/menuBtn"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true" 
             android:background="@drawable/menubtn" />
@@ -57,7 +57,7 @@
     <RelativeLayout
         android:id="@+id/menuLay"
         android:layout_width="70dp"
-        android:layout_height="80dp"
+        android:layout_height="60dp"
         android:layout_alignParentRight="true"
         android:layout_below="@id/titleLay" 
         android:background="#000000"
@@ -69,50 +69,28 @@
             android:orientation="vertical"
 		>
 			<Button
-	            android:id="@+id/goMenu1"
+	            android:id="@+id/menu1"
 	            android:layout_width="match_parent"
 	            android:layout_height="20dp"
 	            android:layout_alignParentRight="true"
-	            android:background="@drawable/srcbtn" />
+	            android:background="@drawable/menu1" />
 			
 			<Button
-	            android:id="@+id/goMenu2"
+	            android:id="@+id/menu2"
 	            android:layout_width="match_parent"
 	            android:layout_height="20dp"
 	            android:layout_alignParentRight="true"
-	            android:background="@drawable/srcbtn" />
+	            android:background="@drawable/menu2" />
 			
 			<Button
-	            android:id="@+id/goMenu3"
+	            android:id="@+id/menu3"
 	            android:layout_width="match_parent"
 	            android:layout_height="20dp"
 	            android:layout_alignParentRight="true"
-	            android:background="@drawable/srcbtn" />
+	            android:background="@drawable/menu3" />
 			
-			<Button
-	            android:id="@+id/goMenu4"
-	            android:layout_width="match_parent"
-	            android:layout_height="20dp"
-	            android:layout_alignParentRight="true"
-	            android:background="@drawable/srcbtn" />
-            
         </LinearLayout>
         
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/bottomLay"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/addViewLay" >
-        
-        <Button
-            android:id="@+id/srcBtn"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true" 
-            android:background="@drawable/srcbtn" />
-    </RelativeLayout>
+    </RelativeLayout>   
 
 </RelativeLayout>

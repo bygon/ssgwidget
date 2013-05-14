@@ -26,7 +26,7 @@
             </intent-filter>
         </receiver>
         
-        <activity android:name="com.se.seadwidget.CustomerManual">
+        <activity android:name="com.se.seadwidget.Menu">
              <intent-filter>
                 <action android:name="com.se.seadwidget.ACTION_MENU"/>
                 <category android:name="android.intent.category.DEFAULT"/>

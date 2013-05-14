@@ -23,17 +23,17 @@
 
         <Button
             android:id="@+id/strBtn"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_alignParentTop="true"
-            android:layout_marginRight="3dp"
+            android:layout_marginRight="13dp"
             android:layout_toLeftOf="@+id/menuBtn"
             android:background="@drawable/startbtn" />
         
         <Button
             android:id="@+id/menuBtn"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true" 
             android:background="@drawable/menubtn" />
@@ -54,19 +54,6 @@
             android:src="@drawable/initimg" />
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/bottomLay"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/addViewLay" >
-        
-        <Button
-            android:id="@+id/srcBtn"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true" 
-            android:background="@drawable/srcbtn" />
-    </RelativeLayout>
+    
 
 </RelativeLayout>
