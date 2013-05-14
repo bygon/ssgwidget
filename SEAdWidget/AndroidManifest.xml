@@ -19,9 +19,10 @@
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
                 <action android:name="com.se.seadwidget.ACTION_MENU"/>
-                <action android:name="com.se.seadwidget.ACTION_SEARCH"/>
+                <action android:name="com.se.seadwidget.ACTION_MENUAL"/>
                 <action android:name="com.se.seadwidget.ACTION_START"/>
-				<action android:name="com.se.seadwidget.CLICK_ACTION"/>
+                <action android:name="com.se.seadwidget.ACTION_ACCOUNT"/>
+                <action android:name="com.se.seadwidget.ACTION_POINT"/>
                 
             </intent-filter>
         </receiver>
@@ -33,9 +34,23 @@
             </intent-filter>
         </activity>
         
-        <activity android:name="com.se.seadwidget.SearchArea">
+        <activity android:name="com.se.seadwidget.Menual">
              <intent-filter>
-                <action android:name="com.se.seadwidget.ACTION_SEARCH"/>
+                <action android:name="com.se.seadwidget.ACTION_MENUAL"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        
+        <activity android:name="com.se.seadwidget.Account">
+             <intent-filter>
+                <action android:name="com.se.seadwidget.ACTION_ACCOUNT"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        
+        <activity android:name="com.se.seadwidget.Point">
+             <intent-filter>
+                <action android:name="com.se.seadwidget.ACTION_POINT"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>

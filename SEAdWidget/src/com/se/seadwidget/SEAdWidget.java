@@ -24,10 +24,12 @@ public class SEAdWidget extends AppWidgetProvider {
 	private static int idx = 0;
 	private static int point = 0;
 	
-	private Button menu;
 	private Boolean isChecked = false;
 
-	private static final int SEARCH_AREA = 2;		//매장찾기
+	private static final int CUSTOMER_MENUAL  = 1;	//매뉴얼
+	private static final int CUSTOMER_ACCOUNT = 2;	//계정등록
+	private static final int CUSTOMER_POINT   = 3;	//내포인트
+	
 	private static boolean ADING = false;			//광고 시작 변수
 	private static Vector imagev;					//이미지 넣을 벡터
 
@@ -106,17 +108,23 @@ public class SEAdWidget extends AppWidgetProvider {
 		Intent mintent = new Intent(Const.ACTION_MENU);
 		mintent.putExtra("CHECKED", isChecked);
 		
-		Intent sintent = new Intent(Const.ACTION_SEARCH);
+		Intent sintent = new Intent(Const.ACTION_MENUAL);
 		Intent tintent = new Intent(Const.ACTION_START);
+		Intent aintent = new Intent(Const.ACTION_ACCOUNT);
+		Intent pintent = new Intent(Const.ACTION_POINT);
 		
-		PendingIntent mPIntent = PendingIntent.getBroadcast(context, 0, mintent, PendingIntent.FLAG_ONE_SHOT);	//메뉴이동		
-
-		PendingIntent sPIntent = PendingIntent.getBroadcast(context, 0, sintent, 0);	//지점찾기 이동
+		PendingIntent mPIntent = PendingIntent.getBroadcast(context, 0, mintent, PendingIntent.FLAG_ONE_SHOT);	//메뉴이동
 		PendingIntent tPIntent = PendingIntent.getBroadcast(context, 0, tintent, 0);	//START 이동
+		PendingIntent sPIntent = PendingIntent.getBroadcast(context, 0, sintent, 0);	//메뉴얼 이동
+		PendingIntent aPintent = PendingIntent.getBroadcast(context, 0, aintent, 0);	//계정등록 이동
+		PendingIntent pPintent = PendingIntent.getBroadcast(context, 0, pintent, 0);	//계정등록 이동
+		
 
-		views.setOnClickPendingIntent(R.id.menuBtn, mPIntent);
-		views.setOnClickPendingIntent(R.id.menu1, sPIntent);
-		views.setOnClickPendingIntent(R.id.strBtn, tPIntent);
+		views.setOnClickPendingIntent(R.id.strBtn, tPIntent);	//광고시작
+		views.setOnClickPendingIntent(R.id.menuBtn, mPIntent);	//메뉴
+		views.setOnClickPendingIntent(R.id.menu1, sPIntent);	//이용안내
+		views.setOnClickPendingIntent(R.id.menu2, aPintent);	//계정등록
+		views.setOnClickPendingIntent(R.id.menu3, pPintent);	//내포인트	
 
 		for (int appWidgetId : appWidgetIds) {
 			appWidgetManager.updateAppWidget(appWidgetId, views);
@@ -175,8 +183,12 @@ public class SEAdWidget extends AppWidgetProvider {
 			alarmManager.set(AlarmManager.RTC, firstTime, mSender);
 				
 			
-		} else if (Const.ACTION_SEARCH.equals(action)) {
-			callActivity(context, SEARCH_AREA);
+		} else if (Const.ACTION_MENUAL.equals(action)) {
+			callActivity(context, CUSTOMER_MENUAL);
+		} else if (Const.ACTION_ACCOUNT.equals(action)) {
+			callActivity(context, CUSTOMER_ACCOUNT);
+		}else if (Const.ACTION_POINT.equals(action)) {
+			callActivity(context, CUSTOMER_POINT);
 		} else if (Const.ACTION_START.equals(action)) {
 			if(ADING){
 				ADING = false;	//두번째 클릭하면 광고중지
@@ -196,8 +208,16 @@ public class SEAdWidget extends AppWidgetProvider {
 		Intent intent = null;
 
 		switch (pageIdx) {
-			case SEARCH_AREA:
-				intent = new Intent("com.se.seadwidget.ACTION_SEARCH");
+			case CUSTOMER_MENUAL:
+				intent = new Intent("com.se.seadwidget.ACTION_MENUAL");
+				break;
+				
+			case CUSTOMER_ACCOUNT:
+				intent = new Intent("com.se.seadwidget.ACTION_ACCOUNT");
+				break;
+				
+			case CUSTOMER_POINT:
+				intent = new Intent("com.se.seadwidget.ACTION_POINT");
 				break;
 				
 			default:
