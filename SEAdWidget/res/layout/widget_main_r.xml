@@ -22,15 +22,6 @@
             android:src="@drawable/logo" />
 
         <Button
-            android:id="@+id/strBtn"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_alignParentTop="true"
-            android:layout_marginRight="13dp"
-            android:layout_toLeftOf="@+id/menuBtn"
-            android:background="@drawable/startbtn" />
-        
-        <Button
             android:id="@+id/menuBtn"
             android:layout_width="35dp"
             android:layout_height="35dp"

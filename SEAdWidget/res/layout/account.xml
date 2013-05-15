@@ -4,40 +4,80 @@
     android:layout_height="wrap_content"
     tools:context=".SEAdWidget" >
 
-    <TextView
-        android:id="@+id/hompagemsg"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:gravity="center"
-        android:layout_above="@+id/homepage"  
-        android:text="회원가입은 신세계 포인트에서 해주세요." />
-
-    <Button
-        android:id="@+id/homepage"
-        android:layout_width="100dp"
-        android:layout_height="30dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="84dp"
-        android:background="@drawable/homepage" />
-
     <ImageView
         android:id="@+id/account"
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="104dp"
+        android:layout_marginTop="80dp"
         android:src="@drawable/shinsegaepoint" />
-
+    
+    
     <TextView
         android:id="@+id/idtxt"
-        android:layout_width="30dp"
+        android:layout_width="80dp"
         android:layout_height="30dp"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/account"
-        android:layout_marginTop="24dp"
-        android:gravity="center"
+        android:layout_centerVertical="true"
+        android:layout_below="@+id/account"        
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="50dp"
         android:text="아이디" />
+    
+    <EditText
+        android:id="@+id/id"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_below="@+id/account"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="120dp" />
+    
+    <TextView
+        android:id="@+id/pwtxt"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:layout_centerVertical="true"
+        android:layout_below="@+id/idtxt"        
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="50dp"
+        android:text="비밀번호" />
+    
+    <EditText
+        android:id="@+id/pw"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_below="@+id/idtxt"
+        android:layout_marginTop="10dp"
+        android:inputType="textPassword"
+        android:layout_marginLeft="120dp" />
+    
+    <Button
+        android:id="@+id/login"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:layout_below="@+id/pwtxt"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="120dp"        
+        android:background="@drawable/login" />
+    
+    <TextView
+        android:id="@+id/hompagemsg"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="center"
+        android:layout_below="@+id/login"
+        android:layout_marginTop="50dp"
+        android:text="회원가입은 신세계 포인트에서 해주세요." />
+    
+    <Button
+        android:id="@+id/homepage"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:layout_below="@+id/hompagemsg"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="110dp"      
+        android:background="@drawable/homepage" />
 
 </RelativeLayout>

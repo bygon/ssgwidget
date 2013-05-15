@@ -1,12 +1,8 @@
 package com.se.seadwidget;
 
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Vector;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -14,13 +10,10 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
-
-import com.se.img.ImageLoader;
-import com.se.img.Utils;
 
 public class SEAdWidget extends AppWidgetProvider {
 
@@ -43,6 +36,7 @@ public class SEAdWidget extends AppWidgetProvider {
 
 	private static final int WIDGET_UPDATE_INTERVAL = 5000; // 5초마다 갱신
 	
+		
 	@Override
 	public void onEnabled(Context context) {
 		Toast.makeText(context, "onEnabled", Toast.LENGTH_SHORT).show();
@@ -92,6 +86,11 @@ public class SEAdWidget extends AppWidgetProvider {
 		
 		RemoteViews views;		
 		
+		SharedPreferences pref = context.getSharedPreferences("ADWIDGET", 0); 	//계정등록이 되었는지 확인하자.
+		if(pref != null){
+			ADING = pref.getBoolean("ADING", false);
+		}
+		
 		if(isChecked){
 			views = new RemoteViews(context.getPackageName(), R.layout.widget_main_r);	//메뉴 누를 때
 			isChecked = false;
@@ -100,7 +99,7 @@ public class SEAdWidget extends AppWidgetProvider {
 			isChecked = true;
 		}
 						
-		if(ADING){	//계정등록 한다면.... 광고 넣어준다.
+		if(ADING){		//계정등록 한다면.... 광고 넣어준다.
 			idx++;
 			point++;	//이미지 바뀔때마다 포인트를 줘볼까?
 						
@@ -119,17 +118,15 @@ public class SEAdWidget extends AppWidgetProvider {
 		mintent.putExtra("CHECKED", isChecked);
 		
 		Intent sintent = new Intent(Const.ACTION_MENUAL);
-		Intent tintent = new Intent(Const.ACTION_START);
 		Intent aintent = new Intent(Const.ACTION_ACCOUNT);
 		Intent pintent = new Intent(Const.ACTION_POINT);
+		pintent.putExtra("Point", point + "1234"); //포인트화면에 포인트 전달
 		
 		PendingIntent mPIntent = PendingIntent.getBroadcast(context, 0, mintent, PendingIntent.FLAG_ONE_SHOT);	//메뉴이동
-		PendingIntent tPIntent = PendingIntent.getBroadcast(context, 0, tintent, 0);	//START 이동
 		PendingIntent sPIntent = PendingIntent.getBroadcast(context, 0, sintent, 0);	//메뉴얼 이동
 		PendingIntent aPintent = PendingIntent.getBroadcast(context, 0, aintent, 0);	//계정등록 이동
 		PendingIntent pPintent = PendingIntent.getBroadcast(context, 0, pintent, 0);	//계정등록 이동
 
-		views.setOnClickPendingIntent(R.id.strBtn, tPIntent);	//광고시작
 		views.setOnClickPendingIntent(R.id.menuBtn, mPIntent);	//메뉴
 		views.setOnClickPendingIntent(R.id.menu1, sPIntent);	//이용안내
 		views.setOnClickPendingIntent(R.id.menu2, aPintent);	//계정등록
@@ -198,16 +195,7 @@ public class SEAdWidget extends AppWidgetProvider {
 			callActivity(context, CUSTOMER_ACCOUNT);
 		}else if (Const.ACTION_POINT.equals(action)) {
 			callActivity(context, CUSTOMER_POINT);
-		} else if (Const.ACTION_START.equals(action)) {
-			if(ADING){
-				ADING = false;	//두번째 클릭하면 광고중지
-			}else{
-				ADING = true;	//광고 시작하기
-			}
-			
-			AppWidgetManager manager = AppWidgetManager.getInstance(context);
-			initUI(context, manager, manager.getAppWidgetIds(new ComponentName(context, getClass())));
-		}
+		} 
 	}
 
 	/**

@@ -20,7 +20,6 @@
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
                 <action android:name="com.se.seadwidget.ACTION_MENU"/>
                 <action android:name="com.se.seadwidget.ACTION_MENUAL"/>
-                <action android:name="com.se.seadwidget.ACTION_START"/>
                 <action android:name="com.se.seadwidget.ACTION_ACCOUNT"/>
                 <action android:name="com.se.seadwidget.ACTION_POINT"/>
                 
@@ -39,13 +38,17 @@
                 <action android:name="com.se.seadwidget.ACTION_MENUAL"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>  
         </activity>
         
         <activity android:name="com.se.seadwidget.Account">
              <intent-filter>
                 <action android:name="com.se.seadwidget.ACTION_ACCOUNT"/>
                 <category android:name="android.intent.category.DEFAULT"/>
-            </intent-filter>
+            </intent-filter>                       
         </activity>
         
         <activity android:name="com.se.seadwidget.Point">
