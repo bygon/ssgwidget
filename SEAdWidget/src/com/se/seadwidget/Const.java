@@ -7,5 +7,6 @@ public class Const {
 	public static final String ACTION_MENUAL = "com.se.seadwidget.ACTION_MENUAL";
 	public static final String ACTION_ACCOUNT = "com.se.seadwidget.ACTION_ACCOUNT";
 	public static final String ACTION_POINT = "com.se.seadwidget.ACTION_POINT";	
+	public static final String ACTION_MAP    = "com.se.seadwidget.ACTION_MAP";	
 	
 }

@@ -22,7 +22,7 @@
                 <action android:name="com.se.seadwidget.ACTION_MENUAL"/>
                 <action android:name="com.se.seadwidget.ACTION_ACCOUNT"/>
                 <action android:name="com.se.seadwidget.ACTION_POINT"/>
-                
+                <action android:name="com.se.seadwidget.ACTION_MAP"/>
             </intent-filter>
         </receiver>
         
@@ -41,7 +41,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>  
+            </intent-filter>
         </activity>
         
         <activity android:name="com.se.seadwidget.Account">
@@ -58,8 +58,19 @@
             </intent-filter>
         </activity>
         
+        <activity android:name="com.se.seadwidget.Maps">
+             <intent-filter>
+                <action android:name="com.se.seadwidget.ACTION_MAP"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>              
+            
+        </activity>
+        
+        <uses-library android:name="com.google.android.maps" />
     </application>
     
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    	
 
 </manifest>

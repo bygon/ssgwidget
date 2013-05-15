@@ -30,6 +30,7 @@ public class SEAdWidget extends AppWidgetProvider {
 	private static final int CUSTOMER_MENUAL  = 1;	//매뉴얼
 	private static final int CUSTOMER_ACCOUNT = 2;	//계정등록
 	private static final int CUSTOMER_POINT   = 3;	//내포인트
+	private static final int CUSTOMER_MAP     = 4;	//맵
 	
 	private static boolean ADING = false;			//광고 시작 변수
 	private static Vector imagev;					//이미지 넣을 벡터
@@ -120,17 +121,19 @@ public class SEAdWidget extends AppWidgetProvider {
 		Intent sintent = new Intent(Const.ACTION_MENUAL);
 		Intent aintent = new Intent(Const.ACTION_ACCOUNT);
 		Intent pintent = new Intent(Const.ACTION_POINT);
-		pintent.putExtra("Point", point + "1234"); //포인트화면에 포인트 전달
+		Intent gintent = new Intent(Const.ACTION_MAP);		
 		
 		PendingIntent mPIntent = PendingIntent.getBroadcast(context, 0, mintent, PendingIntent.FLAG_ONE_SHOT);	//메뉴이동
 		PendingIntent sPIntent = PendingIntent.getBroadcast(context, 0, sintent, 0);	//메뉴얼 이동
 		PendingIntent aPintent = PendingIntent.getBroadcast(context, 0, aintent, 0);	//계정등록 이동
 		PendingIntent pPintent = PendingIntent.getBroadcast(context, 0, pintent, 0);	//계정등록 이동
+		PendingIntent gPintent = PendingIntent.getBroadcast(context, 0, gintent, 0);	//맵 이동
 
 		views.setOnClickPendingIntent(R.id.menuBtn, mPIntent);	//메뉴
 		views.setOnClickPendingIntent(R.id.menu1, sPIntent);	//이용안내
 		views.setOnClickPendingIntent(R.id.menu2, aPintent);	//계정등록
-		views.setOnClickPendingIntent(R.id.menu3, pPintent);	//내포인트	
+		views.setOnClickPendingIntent(R.id.menu3, pPintent);	//내포인트
+		views.setOnClickPendingIntent(R.id.map, gPintent);	    //맵
 
 		for (int appWidgetId : appWidgetIds) {
 			appWidgetManager.updateAppWidget(appWidgetId, views);
@@ -191,11 +194,16 @@ public class SEAdWidget extends AppWidgetProvider {
 			
 		} else if (Const.ACTION_MENUAL.equals(action)) {
 			callActivity(context, CUSTOMER_MENUAL);
+			
 		} else if (Const.ACTION_ACCOUNT.equals(action)) {
 			callActivity(context, CUSTOMER_ACCOUNT);
-		}else if (Const.ACTION_POINT.equals(action)) {
+			
+		} else if (Const.ACTION_POINT.equals(action)) {
 			callActivity(context, CUSTOMER_POINT);
-		} 
+			
+		} else if (Const.ACTION_MAP.equals(action)) {
+			callActivity(context, CUSTOMER_MAP);
+		}
 	}
 
 	/**
@@ -215,6 +223,11 @@ public class SEAdWidget extends AppWidgetProvider {
 				
 			case CUSTOMER_POINT:
 				intent = new Intent("com.se.seadwidget.ACTION_POINT");
+				intent.putExtra("Point", point + ""); //포인트화면에 포인트 전달
+				break;
+				
+			case CUSTOMER_MAP:
+				intent = new Intent("com.se.seadwidget.ACTION_MAP");
 				break;
 				
 			default:

@@ -1,7 +1,5 @@
 package com.se.img;
 
-import com.se.seadwidget.R;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -14,9 +12,9 @@ public class RemoteImageDownloader extends Activity
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        //setContentView(R.layout.main);
         
-        ImageView imageView = (ImageView) findViewById(R.id.image_view);
-        ImageDownloader.download(URL, imageView);
+        //ImageView imageView = (ImageView) findViewById(R.id.image_view);
+        //ImageDownloader.download(URL, imageView);
     }
 }
