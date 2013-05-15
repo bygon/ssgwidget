@@ -1,5 +1,10 @@
 package com.se.seadwidget;
 
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Vector;
 
 import android.app.AlarmManager;
@@ -9,10 +14,13 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.RemoteViews;
 import android.widget.Toast;
+
+import com.se.img.ImageLoader;
+import com.se.img.Utils;
 
 public class SEAdWidget extends AppWidgetProvider {
 
@@ -33,10 +41,8 @@ public class SEAdWidget extends AppWidgetProvider {
 	private static boolean ADING = false;			//광고 시작 변수
 	private static Vector imagev;					//이미지 넣을 벡터
 
-	private static final int WIDGET_UPDATE_INTERVAL = 5000; // 5초마다 갱신 -- 시간은
-															// 알아서 조정 할 것
-															// millisecond 1000
-															// = 1초
+	private static final int WIDGET_UPDATE_INTERVAL = 5000; // 5초마다 갱신
+	
 	@Override
 	public void onEnabled(Context context) {
 		Toast.makeText(context, "onEnabled", Toast.LENGTH_SHORT).show();
@@ -87,7 +93,7 @@ public class SEAdWidget extends AppWidgetProvider {
 		RemoteViews views;		
 		
 		if(isChecked){
-			views = new RemoteViews(context.getPackageName(), R.layout.widget_main_r);
+			views = new RemoteViews(context.getPackageName(), R.layout.widget_main_r);	//메뉴 누를 때
 			isChecked = false;
 		}else{
 			views = new RemoteViews(context.getPackageName(), R.layout.widget_main);
@@ -98,11 +104,15 @@ public class SEAdWidget extends AppWidgetProvider {
 			idx++;
 			point++;	//이미지 바뀔때마다 포인트를 줘볼까?
 						
-			views.setImageViewResource(R.id.addImage, (Integer) imagev.get(idx % 4));	//이미지 4개니까 4모듈러로 5초에 한번씩 뿌려준다.
+			views.setImageViewResource(R.id.addImage, (Integer) imagev.get(idx % 4));	//이미지 4개니까 4모듈러로 5초에 한번씩 뿌려준다.			
 			Toast.makeText(context, "Point > " + point , Toast.LENGTH_SHORT).show();
 		}else{
 			idx = 0;
-			views.setImageViewResource(R.id.addImage, R.drawable.initimg);			
+			views.setImageViewResource(R.id.addImage, R.drawable.initimg);
+			 			
+			//ImageLoader bitm = new ImageLoader(this.context);
+			//Bitmap bitmap = bitm.getBitmap("");
+			//views.setImageViewBitmap(R.id.addImage, bitmap);
 		}
 
 		Intent mintent = new Intent(Const.ACTION_MENU);
@@ -118,7 +128,6 @@ public class SEAdWidget extends AppWidgetProvider {
 		PendingIntent sPIntent = PendingIntent.getBroadcast(context, 0, sintent, 0);	//메뉴얼 이동
 		PendingIntent aPintent = PendingIntent.getBroadcast(context, 0, aintent, 0);	//계정등록 이동
 		PendingIntent pPintent = PendingIntent.getBroadcast(context, 0, pintent, 0);	//계정등록 이동
-		
 
 		views.setOnClickPendingIntent(R.id.strBtn, tPIntent);	//광고시작
 		views.setOnClickPendingIntent(R.id.menuBtn, mPIntent);	//메뉴
@@ -233,5 +242,6 @@ public class SEAdWidget extends AppWidgetProvider {
 			mSender.cancel();
 			alarmManager.cancel(mSender);
 		}
-	}
+	}	
+	
 }

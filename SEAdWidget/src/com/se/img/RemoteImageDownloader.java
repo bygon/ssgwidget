@@ -1,4 +1,6 @@
-package com.se.seadwidget;
+package com.se.img;
+
+import com.se.seadwidget.R;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -15,6 +17,6 @@ public class RemoteImageDownloader extends Activity
         setContentView(R.layout.main);
         
         ImageView imageView = (ImageView) findViewById(R.id.image_view);
-        Point.download(URL, imageView);
+        ImageDownloader.download(URL, imageView);
     }
 }

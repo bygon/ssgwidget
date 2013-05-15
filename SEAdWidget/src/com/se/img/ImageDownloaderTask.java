@@ -1,11 +1,9 @@
-package com.se.seadwidget;
+package com.se.img;
 
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
-
-import com.se.seadwidget.Point.DownloadedDrawable;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -20,6 +18,8 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
+
+import com.se.img.ImageDownloader.DownloadedDrawable;
 
 public class ImageDownloaderTask extends AsyncTask<String, Void, Bitmap>
 {
@@ -54,7 +54,7 @@ public class ImageDownloaderTask extends AsyncTask<String, Void, Bitmap>
 			
 			if(this == bitmapDownloaderTask)
 			{
-				Point.mImageCache.put(targetUrl, bitmap);
+				ImageDownloader.mImageCache.put(targetUrl, bitmap);
 				imageView.setImageBitmap(bitmap);
 			}
 		}
