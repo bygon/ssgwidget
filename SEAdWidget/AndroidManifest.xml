@@ -23,6 +23,7 @@
                 <action android:name="com.se.seadwidget.ACTION_ACCOUNT"/>
                 <action android:name="com.se.seadwidget.ACTION_POINT"/>
                 <action android:name="com.se.seadwidget.ACTION_MAP"/>
+                <action android:name="com.se.seadwidget.ACTION_LINK"/>
             </intent-filter>
         </receiver>
         

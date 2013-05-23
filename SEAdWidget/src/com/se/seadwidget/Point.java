@@ -34,8 +34,15 @@ public class Point extends Activity {
 		}else{
 			idtxt.setText("계정을 등록해 주세요.");
 		}
+	}
+	
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		super.onBackPressed();
 		
-		
-		
+		Intent pintent = new Intent(Const.ACTION_POINT);
+		pintent.putExtra("Open", false);
+		this.finish();
 	}
 }

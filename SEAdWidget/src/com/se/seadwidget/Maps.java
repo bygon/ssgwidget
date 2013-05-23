@@ -27,19 +27,14 @@ public class Maps extends MapActivity{
 	    Drawable drawable = this.getResources().getDrawable(R.drawable.logo);
 	    MapItemizedOverlay itemizedoverlay = new MapItemizedOverlay(drawable, this);
 	    
-	    GeoPoint point1;
-	    GeoPoint point2;
+	    GeoPoint point1;	    
 	    OverlayItem overlayitem1;
-	    OverlayItem overlayitem2;
 	    
 	    point1 = new GeoPoint(37485871,126891530);
-	    point2 = new GeoPoint(35689488,139691706);
 	  
 	    overlayitem1 = new OverlayItem(point1, "안녕", "나 남구로야");
-	    overlayitem2 = new OverlayItem(point2, "니뽄", "도쿄데스");
 	    
 	    itemizedoverlay.addOverlay(overlayitem1);
-	    itemizedoverlay.addOverlay(overlayitem2);
 	    mapOverlays.add(itemizedoverlay);
 	}
 

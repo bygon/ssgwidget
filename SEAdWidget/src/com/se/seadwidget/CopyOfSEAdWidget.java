@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 import com.se.img.ImageDownloaderAsynkTask;
 
-public class SEAdWidget extends AppWidgetProvider {
+public class CopyOfSEAdWidget extends AppWidgetProvider {
 
 	private static AlarmManager alarmManager; 	//주기적으로 이미지 변경하기 위해 타이머 둬서 호출한다.
 	private static PendingIntent mSender;
@@ -43,20 +43,19 @@ public class SEAdWidget extends AppWidgetProvider {
 	private static String URL = "";	//현재광고	
 
 	private static final int WIDGET_UPDATE_INTERVAL = 5000; // 5초마다 갱신	
-	private static int rid = R.layout.widget_main;
 		
 	@Override
 	public void onEnabled(Context context) {
-		//Toast.makeText(context, "onEnabled", Toast.LENGTH_SHORT).show();		
+		Toast.makeText(context, "onEnabled", Toast.LENGTH_SHORT).show();
+		
 		super.onEnabled(context);
 	}
 
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-		//Toast.makeText(context, "onUpdate > " + imageL.size() + " MENU " + isOpen, Toast.LENGTH_SHORT).show();
-		Log.e("onUpdate", "onUpdate");
+		Toast.makeText(context, "onUpdate > " + imageL.size(), Toast.LENGTH_SHORT).show();
 		
-		//서버에서 광고정보를 가져오자..  나중에 다시 정리....
+		//서버에서 광고정보를 가져오자..
 		if(imageL.size() <= 0 || imageL == null ){	//광고를 다보았다면 서버에서 다시 내려받자
 			HashMap m1 = new HashMap();		
 			m1.put("IMG", "http://item.emart.co.kr/i/99/02/57/E000030570299_350_b.jpg");
@@ -82,18 +81,26 @@ public class SEAdWidget extends AppWidgetProvider {
 		}
 
 		this.context = context;
-		super.onUpdate(context, appWidgetManager, appWidgetIds);	
+		super.onUpdate(context, appWidgetManager, appWidgetIds);
+
+		for (int i = 0; i < appWidgetIds.length; i++) {
+			int appWidgetId = appWidgetIds[i];
+			RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_main);
+			appWidgetManager.updateAppWidget(appWidgetId, views);
+		}
 	}
 
 	@Override
 	public void onDeleted(Context context, int[] appWidgetIds) {
-		//Toast.makeText(context, "onDeleted", Toast.LENGTH_SHORT).show();		
+		//Toast.makeText(context, "onDeleted", Toast.LENGTH_SHORT).show();
+		
 		super.onDeleted(context, appWidgetIds);
 	}
 
 	@Override
 	public void onDisabled(Context context) {
-		//Toast.makeText(context, "onDisabled", Toast.LENGTH_SHORT).show();		
+		//Toast.makeText(context, "onDisabled", Toast.LENGTH_SHORT).show();
+		
 		super.onDisabled(context);
 	}
 
@@ -101,23 +108,25 @@ public class SEAdWidget extends AppWidgetProvider {
 	 * UI 설정 이벤트 설정
 	 */
 	public void initUI(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-		//Toast.makeText(context, "initUI " + isOpen + ADING, Toast.LENGTH_SHORT).show();
+		Toast.makeText(context, "initUI " + imageL.size(), Toast.LENGTH_SHORT).show();
 		
-		Log.e("initUI", "initUI");
-		RemoteViews views;
+		RemoteViews views;		
+		
 		SharedPreferences pref = context.getSharedPreferences("ADWIDGET", 0); 	//계정등록이 되었는지 확인하자.
 		if(pref != null){
 			ADING = pref.getBoolean("ADING", false);
 		}
 		
-		if(isOpen){	//메뉴 레이아웃 분개
-			rid = R.layout.widget_main_r;
+		if(isOpen){
+			views = new RemoteViews(context.getPackageName(), R.layout.widget_main_r);	//메뉴 누를 때
+			isOpen = false;
 		}else{
-			rid = R.layout.widget_main;
+			views = new RemoteViews(context.getPackageName(), R.layout.widget_main);
+			isOpen = true;
 		}
-		views = new RemoteViews(context.getPackageName(), rid);	//메뉴 누를 때		
 		
 		Intent mintent = new Intent(Const.ACTION_MENU);
+		mintent.putExtra("Open", isOpen);
 		Intent sintent = new Intent(Const.ACTION_MENUAL);
 		Intent aintent = new Intent(Const.ACTION_ACCOUNT);
 		Intent pintent = new Intent(Const.ACTION_POINT);
@@ -149,21 +158,19 @@ public class SEAdWidget extends AppWidgetProvider {
 				URL = m.get("URL").toString();
 				imageL.remove(0);
 			}
-			
-			//광고이미지를 비동기로 가져온다 		
+					
 			ImageDownloaderAsynkTask imageDownTask = new ImageDownloaderAsynkTask(IMG, views,appWidgetIds, appWidgetManager, this.context);
 			imageDownTask.execute(IMG);
-		}else{
-			idx = 0;	//로그아웃시 광고 클리어
-			URL = "";
-			IMG = "";
-			imageL.clear();
 			
-			views.setImageViewResource(R.id.addImage, R.drawable.initimg);			
+			//Toast.makeText(context, "Point > " + point , Toast.LENGTH_SHORT).show();
+		}else{
+			idx = 0;
+			views.setImageViewResource(R.id.addImage, R.drawable.initimg);
+			
 			for (int appWidgetId : appWidgetIds) {
 				appWidgetManager.updateAppWidget(appWidgetId, views);
 			}
-		}
+		}		
 	}
 
 	/**
@@ -173,18 +180,18 @@ public class SEAdWidget extends AppWidgetProvider {
 	public void onReceive(Context context, Intent intent) {
 		super.onReceive(context, intent);
 		
-		Context con;
 		String action = intent.getAction();
 		Log.d(TAG, "onReceive() action = " + action);
 		
+		//Toast.makeText(context, "onReceive action = " + action, Toast.LENGTH_SHORT).show();
+
 		// Default Recevier
 		if (AppWidgetManager.ACTION_APPWIDGET_ENABLED.equals(action)) {
 
 		} else if (AppWidgetManager.ACTION_APPWIDGET_UPDATE.equals(action)) {			
-			con = context;
 			removePreviousAlarm();
-			Log.e("ACTION_APPWIDGET_UPDATE", "ACTION_APPWIDGET_UPDATE");
-			//isOpen = intent.getBooleanExtra("Open", false);
+
+			isOpen = intent.getBooleanExtra("Open", false);
 			
 			AppWidgetManager manager = AppWidgetManager.getInstance(context);
 			initUI(context, manager, manager.getAppWidgetIds(new ComponentName(context, getClass())));
@@ -193,7 +200,7 @@ public class SEAdWidget extends AppWidgetProvider {
 			long firstTime = System.currentTimeMillis() + WIDGET_UPDATE_INTERVAL;
 			mSender = PendingIntent.getBroadcast(context, 0, intent, 0);
 			alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-			alarmManager.set(AlarmManager.RTC, firstTime, mSender);		
+			alarmManager.set(AlarmManager.RTC, firstTime, mSender);
 			
 		} else if (AppWidgetManager.ACTION_APPWIDGET_DELETED.equals(action)) {
 			// 등록한 알람 제거
@@ -203,34 +210,36 @@ public class SEAdWidget extends AppWidgetProvider {
 			// 등록한 알람 제거
 			removePreviousAlarm();
 			
-		} else if (Const.ACTION_MENU.equals(action)) { // Custom Recevier			
-			if(isOpen){	//메뉴 컨트롤
-				isOpen = false;
-			}else{
-				isOpen = true;
-			}
+		} else if (Const.ACTION_MENU.equals(action)) { // Custom Recevier
+			//removePreviousAlarm();
 			
+			isOpen = intent.getBooleanExtra("Open", false);
+			
+			/*
 			AppWidgetManager manager = AppWidgetManager.getInstance(context);
 			initUI(context, manager, manager.getAppWidgetIds(new ComponentName(context, getClass())));
+
+			// 알람 등록 : 현제 시간에서 지정한 시간 후에 이벤트 발생
+			
+			long firstTime = System.currentTimeMillis() + WIDGET_UPDATE_INTERVAL;
+			mSender = PendingIntent.getBroadcast(context, 0, intent, 0);
+			alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+			alarmManager.set(AlarmManager.RTC, firstTime, mSender);
+			*/				
 			
 		} else if (Const.ACTION_MENUAL.equals(action)) {
-			isOpen = false;
 			callActivity(context, CUSTOMER_MENUAL);
 			
 		} else if (Const.ACTION_ACCOUNT.equals(action)) {
-			isOpen = false;
 			callActivity(context, CUSTOMER_ACCOUNT);
 			
 		} else if (Const.ACTION_POINT.equals(action)) {
-			isOpen = false;
 			callActivity(context, CUSTOMER_POINT);
 			
 		} else if (Const.ACTION_MAP.equals(action)) {
-			isOpen = false;
 			callActivity(context, CUSTOMER_MAP);
 			
 		} else if (Const.ACTION_LINK.equals(action)) {
-			isOpen = false;
 			if(URL.length() > 0){
 				callActivity(context, CUSTOMER_LINK);
 			}
@@ -245,7 +254,7 @@ public class SEAdWidget extends AppWidgetProvider {
 
 		switch (pageIdx) {
 			case CUSTOMER_MENUAL:
-				intent = new Intent("com.se.seadwidget.ACTION_MENUAL");
+				intent = new Intent("com.se.seadwidget.ACTION_MENUAL");				
 				break;
 				
 			case CUSTOMER_ACCOUNT:
@@ -263,7 +272,7 @@ public class SEAdWidget extends AppWidgetProvider {
 				
 			case CUSTOMER_LINK:
 				intent = new Intent(Intent.ACTION_VIEW);
-			    Uri u = Uri.parse(URL);	//광고클릭 시 해당 광고 사이트 호출
+			    Uri u = Uri.parse(URL);
 			    intent.setData(u);
 				break;
 				
