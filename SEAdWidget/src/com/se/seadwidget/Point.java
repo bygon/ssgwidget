@@ -10,6 +10,8 @@ public class Point extends Activity {
 	private TextView apoint;
 	private TextView npoint;
 	private TextView idtxt;
+	private TextView txnpoint;
+	private TextView txapoint;
 	private SharedPreferences pref;
 	
 	@Override
@@ -33,16 +35,11 @@ public class Point extends Activity {
 			npoint.setText(Point + "P");
 		}else{
 			idtxt.setText("계정을 등록해 주세요.");
+			txnpoint = (TextView)findViewById(R.id.txnpoint);	
+			txapoint = (TextView)findViewById(R.id.txapoint);
+			txnpoint.setVisibility(android.view.View.INVISIBLE);
+			txapoint.setVisibility(android.view.View.INVISIBLE);			
 		}
 	}
 	
-	@Override
-	public void onBackPressed() {
-		// TODO Auto-generated method stub
-		super.onBackPressed();
-		
-		Intent pintent = new Intent(Const.ACTION_POINT);
-		pintent.putExtra("Open", false);
-		this.finish();
-	}
 }

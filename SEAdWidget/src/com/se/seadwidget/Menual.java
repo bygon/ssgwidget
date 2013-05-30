@@ -12,6 +12,7 @@ public class Menual extends Activity {
 		setContentView(R.layout.manual);
 	}
 	
+	/*
 	@Override
 	public void onBackPressed() {
 		// TODO Auto-generated method stub
@@ -21,4 +22,5 @@ public class Menual extends Activity {
 		mintent.putExtra("Open", false);
 		this.finish();
 	}
+	*/
 }

@@ -61,9 +61,8 @@ public class ImageDownloaderAsynkTask extends AsyncTask<String, Void, Bitmap>
 			Log.e("ImageDownloaderAsynkTask", "onPostExecute = null null null");
 		}
 		Log.e("ImageDownloaderAsynkTask", "onPostExecute = " +bitmap);
+		
 		rViews.setImageViewBitmap(R.id.addImage, bitmap);	//이제 이미지를 올려보자...
-		
-		
 		for (int appWidgetId : widgetIds) {	//이미지를 올렸으면 위젯 갱신
 			widgetManager.updateAppWidget(appWidgetId, rViews);
 		}

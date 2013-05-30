@@ -28,16 +28,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true" 
             android:background="@drawable/menubtn" />
-
-       <Button
-           android:id="@+id/map"
-           android:layout_width="35dp"
-           android:layout_height="35dp"
-           android:layout_alignParentRight="true"
-           android:layout_alignParentTop="true"
-           android:layout_marginRight="82dp"
-           android:background="@drawable/srcbtn" />
-
+      
     </RelativeLayout>
 
     <RelativeLayout

@@ -92,14 +92,4 @@ public class Account extends Activity {
 			});
 		}
 	}
-	
-	@Override
-	public void onBackPressed() {
-		// TODO Auto-generated method stub
-		super.onBackPressed();
-		
-		Intent aintent = new Intent(Const.ACTION_ACCOUNT);
-		aintent.putExtra("Open", false);
-		this.finish();
-	}
 }
