@@ -1,13 +1,14 @@
 package com.se.seadwidget;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -17,9 +18,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.StrictMode;
 import android.util.Log;
 import android.widget.RemoteViews;
-import android.widget.Toast;
 
 import com.se.img.ImageDownloaderAsynkTask;
 import com.util.JSONParser;
@@ -32,7 +34,10 @@ public class SEAdWidget extends AppWidgetProvider {
 	private static final String TAG = "SEAdWidget";
 	private static Context context;
 	private static int idx = 0;
-	private static int point = 0;	
+	private static int point = 0;
+	private static int totpoint = 0;
+	private static int totpoint_h = 0;;
+	
 	private static Boolean isOpen = false;
 
 	private static final int CUSTOMER_MENUAL  = 1;	//매뉴얼
@@ -43,76 +48,54 @@ public class SEAdWidget extends AppWidgetProvider {
 	private static boolean ADING = false;			//광고 시작 변수
 	private static List imageL = new ArrayList();	//정보 넣을 벡터
 	private static HashMap imageMap = new HashMap();//정보 넣을 해쉬맵	
-	private static String IMG = "";					//현재이미지
-	private static String URL = "";					//현재광고	
+	private static String IMG_URL = "";					//현재이미지
+	private static String LINK_URL = "";				//현재광고
 
-	private static final int WIDGET_UPDATE_INTERVAL = 5000; // 5초마다 갱신	
+	private static final int WIDGET_UPDATE_INTERVAL = 7000; // 7초마다 갱신	
 	private static int rid = R.layout.widget_main;	//위젯 메인 레이아웃
 	
 	// JSON Node names 
 	private static final String TAG_CONTACTS = "AD";
 	// contacts JSONArray 
-	private static JSONArray ADBOX = null;
+	private static JSONArray ADBOX = null;	
+	
+	private static Calendar now;
+	
+	private static final String serverIP = "http://";
+	private static final boolean DEVELOPER_MODE = true;
 		
 	@Override
 	public void onEnabled(Context context) {
-		//Toast.makeText(context, "onEnabled", Toast.LENGTH_SHORT).show();		
 		super.onEnabled(context);
 	}
 
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-		//Toast.makeText(context, "onUpdate > " + imageL.size() + " MENU " + isOpen, Toast.LENGTH_SHORT).show();
+		//Toast.makeText(context, "onUpdate > " + imageL.size() + " MENU " + isOpen, Toast.LENGTH_SHORT).show();		
+		//Toast.makeText(context, "totpoint_h > " + totpoint_h + " NOW " + now.get(Calendar.HOUR_OF_DAY) + " TOTPOINT " + totpoint, Toast.LENGTH_SHORT).show();
+		
+		now =  Calendar.getInstance();
+		//if (DEVELOPER_MODE) {			
+		//	StrictMode.enableDefaults();		
+		//}
+		
+		//totpoint_h 여기에 오늘날짜 설정		
+		//if(totpoint_h != sysdate && now.get(Calendar.HOUR_OF_DAY) == "24"){
+			
+		//}
+		
+		if(totpoint_h != now.get(Calendar.HOUR_OF_DAY) || totpoint <= 0){	//시간단위로 누적포인트를 가져보자.
+			totpoint += point;
+			totpoint_h = now.get(Calendar.HOUR_OF_DAY); //누적시킨 시간 값 셋팅
+			point = 0;	//당일포인트 초기화
+		}
+		
 		Log.e("onUpdate", "onUpdate");
 		
 		//서버에서 광고정보를 가져오자..  나중에 다시 정리....
 		if(imageL.size() <= 0 || imageL == null ){	//광고를 다보았다면 서버에서 다시 내려받자
-			/*
-			HashMap m1 = new HashMap();
-			m1.put("IMG", "http://item.emart.co.kr/i/99/02/57/E000030570299_350_b.jpg");
-			m1.put("URL", "http://m.emart.com/item/itemDetail.emart?item_id=E000030570299&ctg_id=6632784&shop_id=&emid=em_ma_04_02");		
-			
-			HashMap m2 = new HashMap();
-			m2.put("IMG", "http://item.emart.co.kr/i/45/10/20/8808244201045_350_b.jpg");
-			m2.put("URL", "http://m.emart.com/item/itemDetail.emart?item_id=8808244201045&ctg_id=6632784&shop_id=&emid=em_ma_04_02");		
-			
-			HashMap m3 = new HashMap();
-			m3.put("IMG", "http://item.emart.co.kr/i/85/04/72/8809142720485_350_b.jpg");
-			m3.put("URL", "http://m.emart.com/item/itemDetail.emart?item_id=8809142720485&ctg_id=6632784&shop_id=&emid=em_ma_04_01");		
-			
-			HashMap m4 = new HashMap();
-			m4.put("IMG", "http://item.emart.co.kr/i/51/30/50/8801128503051_350_b.jpg");
-			m4.put("URL", "http://m.emart.com/item/itemDetail.emart?item_id=8801128503051&ctg_id=6632784&shop_id=&emid=em_ts_01_10");
-			
-			imageL.add(m1);
-			imageL.add(m2);
-			imageL.add(m3);
-			imageL.add(m4);
-			*/
-			
-			try {	//이제 제이슨으로 바꿔보자~~~~~~~~ 일단 로컬 txt파일로
-				//JSONParser jParser = new JSONParser();
-			    //JSONObject json = jParser.getJSONFromUrl("http://www.naver.com?mode=ading");
-				
-				JSONParser jParser = new JSONParser();
-				String page = jParser.getJSONFromTxt(this.context);	
-				JSONObject json = new JSONObject(page);	
-				ADBOX = json.getJSONArray(TAG_CONTACTS);
-				
-				for(int i = 0; i < ADBOX.length(); i++){ 
-					json = ADBOX.getJSONObject(i); 
-
-					HashMap map = new HashMap();					
-					map.put("IMG", json.getString("IMG")); 
-					map.put("URL", json.getString("URL")); 
-					
-					imageL.add(map);
-				}
-				
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} 
+			DownLoadUrlAsynkTask urlData = new DownLoadUrlAsynkTask();
+			urlData.execute("MANI");
 		}
 
 		this.context = context;
@@ -121,13 +104,11 @@ public class SEAdWidget extends AppWidgetProvider {
 
 	@Override
 	public void onDeleted(Context context, int[] appWidgetIds) {
-		//Toast.makeText(context, "onDeleted", Toast.LENGTH_SHORT).show();		
 		super.onDeleted(context, appWidgetIds);
 	}
 
 	@Override
 	public void onDisabled(Context context) {
-		//Toast.makeText(context, "onDisabled", Toast.LENGTH_SHORT).show();		
 		super.onDisabled(context);
 	}
 
@@ -135,9 +116,7 @@ public class SEAdWidget extends AppWidgetProvider {
 	 * UI 설정 이벤트 설정
 	 */
 	public void initUI(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-		//Toast.makeText(context, "initUI " + isOpen + ADING, Toast.LENGTH_SHORT).show();
-		
-		Log.e("initUI", "initUI");
+		//Log.e("initUI", "initUI");
 		RemoteViews views;
 		SharedPreferences pref = context.getSharedPreferences("ADWIDGET", 0); 	//계정등록이 되었는지 확인하자.
 		if(pref != null){
@@ -178,19 +157,19 @@ public class SEAdWidget extends AppWidgetProvider {
 			if(imageL.size() > 0){
 				HashMap m = new HashMap();	//가져온광고에서 첫번째꺼를 빼오고 지운다.... 다지우면 다시 가져오기
 				m = (HashMap)imageL.get(0);
-				IMG = m.get("IMG").toString();
-				URL = m.get("URL").toString();
+				IMG_URL = m.get("IMG_URL").toString();
+				LINK_URL = m.get("LINK_URL").toString();
 				imageL.remove(0);	//맨첫번째꺼를 계속 빼먹는다.
 				
 				//광고이미지를 비동기로 가져온다 		
-				ImageDownloaderAsynkTask imageDownTask = new ImageDownloaderAsynkTask(IMG, views,appWidgetIds, appWidgetManager, this.context);
-				imageDownTask.execute(IMG);
+				ImageDownloaderAsynkTask imageDownTask = new ImageDownloaderAsynkTask(IMG_URL, views,appWidgetIds, appWidgetManager, this.context);
+				imageDownTask.execute(IMG_URL);
 			}		
 			
 		}else{
 			idx = 0;	//로그아웃시 광고 클리어
-			URL = "";
-			IMG = "";
+			LINK_URL = "";
+			IMG_URL = "";
 			imageL.clear();
 			
 			views.setImageViewResource(R.id.addImage, R.drawable.initimg);			
@@ -204,17 +183,8 @@ public class SEAdWidget extends AppWidgetProvider {
 	 * 메뉴 설정
 	 */
 	public void initMenu(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {	//메뉴만 누를때 레이아웃만 변경하기
-		//Toast.makeText(context, "initUI " + isOpen + ADING, Toast.LENGTH_SHORT).show();
-		
-		Log.e("initMenu", "initMenu");
+		//Log.e("initMenu", "initMenu");
 		RemoteViews views;
-		
-		/*
-		SharedPreferences pref = context.getSharedPreferences("ADWIDGET", 0); 	//계정등록이 되었는지 확인하자.
-		if(pref != null){
-			ADING = pref.getBoolean("ADING", false);
-		}
-		*/
 		
 		if(isOpen){	//메뉴 레이아웃 분개
 			rid = R.layout.widget_main_r;
@@ -244,8 +214,8 @@ public class SEAdWidget extends AppWidgetProvider {
 		if(ADING){		//계정등록 한다면.... 광고 넣어준다.			
 			
 			//현재 셋팅된 광고이미지를 비동기로 가져온다 		
-			ImageDownloaderAsynkTask imageDownTask = new ImageDownloaderAsynkTask(IMG, views,appWidgetIds, appWidgetManager, this.context);
-			imageDownTask.execute(IMG);
+			ImageDownloaderAsynkTask imageDownTask = new ImageDownloaderAsynkTask(IMG_URL, views,appWidgetIds, appWidgetManager, this.context);
+			imageDownTask.execute(IMG_URL);
 			
 		}else{
 			
@@ -317,8 +287,10 @@ public class SEAdWidget extends AppWidgetProvider {
 			
 		} else if (Const.ACTION_LINK.equals(action)) {
 			isOpen = false;
-			if(URL.length() > 0){
+			if(LINK_URL.length() > 0){
 				callActivity(context, CUSTOMER_LINK);
+			}else{
+				callActivity(context, CUSTOMER_ACCOUNT);
 			}
 		}
 	}
@@ -332,20 +304,25 @@ public class SEAdWidget extends AppWidgetProvider {
 		switch (pageIdx) {
 			case CUSTOMER_MENUAL:
 				intent = new Intent("com.se.seadwidget.ACTION_MENUAL");
+				intent.putExtra("Title", "이용안내"); //타이틀
 				break;
 				
 			case CUSTOMER_ACCOUNT:
-				intent = new Intent("com.se.seadwidget.ACTION_ACCOUNT");
+				intent = new Intent("com.se.seadwidget.ACTION_ACCOUNT");				
+				intent.putExtra("Title", "계정등록"); //타이틀
+				intent.putExtra("Point", point + ""); //포인트화면에 당일포인트 전달
 				break;
 				
 			case CUSTOMER_POINT:
 				intent = new Intent("com.se.seadwidget.ACTION_POINT");
-				intent.putExtra("Point", point + ""); //포인트화면에 포인트 전달
+				intent.putExtra("Point", point + ""); //포인트화면에 당일포인트 전달
+				intent.putExtra("TotPoint", totpoint + ""); //포인트화면에 누적포인트 전달
+				intent.putExtra("Title", "포인트 확인"); //타이틀
 				break;
 				
 			case CUSTOMER_LINK:
 				intent = new Intent(Intent.ACTION_VIEW);
-			    Uri u = Uri.parse(URL);	//광고클릭 시 해당 광고 사이트 호출
+			    Uri u = Uri.parse(LINK_URL);	//광고클릭 시 해당 광고 사이트 호출
 			    intent.setData(u);
 				break;
 				
@@ -362,6 +339,49 @@ public class SEAdWidget extends AppWidgetProvider {
 			mSender.cancel();
 			alarmManager.cancel(mSender);
 		}
-	}	
+	}
+	
+	public class DownLoadUrlAsynkTask extends AsyncTask<String, Void, List<HashMap<String, String>>>{		
+
+	  @Override
+	  protected List<HashMap<String, String>> doInBackground(String... params) {
+		  		
+		  try { 
+			  
+//			  JSONParser jParser = new JSONParser();
+//			  JSONObject json = jParser.getJSONFromUrl(serverIP + "/manitest.jsp");
+			  
+			JSONParser jParser = new JSONParser();
+			String page = jParser.getJSONFromTxt(context);	
+			JSONObject json = new JSONObject(page);				
+			
+			ADBOX = json.getJSONArray(TAG_CONTACTS);
+			
+			for(int i = 0; i < ADBOX.length(); i++){ 
+				json = ADBOX.getJSONObject(i); 
+
+				HashMap map = new HashMap();
+				map.put("LINK_URL", json.getString("LINK_URL"));
+				//map.put("IMG_URL", serverIP + json.getString("IMG_URL"));
+				map.put("IMG_URL", json.getString("IMG_URL"));
+				
+				imageL.add(map);
+			}         
+	    
+         } catch (Exception e) {
+             Log.e("NewsApp", "예외발생 :"+e.getMessage());
+         }
+	   
+		 return null;
+	  }
+
+	  @Override
+	  protected void onPostExecute(List<HashMap<String, String>> result) {
+		  super.onPostExecute(result);
+		  //Toast.makeText(context, "onPostExecute", Toast.LENGTH_SHORT).show();
+		  //여기서 서버로 포인트를 보내볼까
+	  
+	 } 
+  }
 	
 }

@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-public class Menual extends Activity {
+public class Menual extends TitleActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

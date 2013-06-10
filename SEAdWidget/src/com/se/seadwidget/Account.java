@@ -9,9 +9,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-public class Account extends Activity {
+import com.util.ATools;
+
+public class Account extends TitleActivity {
 	private Button homepage;
 	private Button login;
 	private Button logout;
@@ -20,6 +21,7 @@ public class Account extends Activity {
 	private TextView idtxt;
 	private SharedPreferences pref;
 	private boolean ADING = false;
+	private ATools tools = new ATools();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +42,11 @@ public class Account extends Activity {
 			setContentView(R.layout.myaccount);
 			logout = (Button)findViewById(R.id.logout);
 			idtxt = (TextView)findViewById(R.id.idtxt);
-			idtxt.setText("안녕하세요! " + pref.getString("ID",  "")  +  "님");
+			
+			Intent intent = getIntent(); 
+			String Point = intent.getStringExtra("Point");			
+			
+			idtxt.setText("안녕하세요! " + pref.getString("ID",  "")  +  "님\nTODAY " + tools.moneyFmt(Point) + "포인트 적립되었습니다.");
 			
 			logout.setOnClickListener(new View.OnClickListener() {
 				
@@ -52,7 +58,7 @@ public class Account extends Activity {
 				    editor.putString("PW", ""); 
 				    editor.commit();
 				    
-				    Toast.makeText(Account.this, "ADING 제거 완료", Toast.LENGTH_SHORT).show();
+				    //Toast.makeText(Account.this, "ADING 제거 완료", Toast.LENGTH_SHORT).show();
 				    finish();
 				}
 			});			
@@ -60,7 +66,7 @@ public class Account extends Activity {
 			setContentView(R.layout.account);
 			
 			homepage = (Button)findViewById(R.id.homepage);		
-			login = (Button)findViewById(R.id.login);			
+			login = (Button)findViewById(R.id.account_login);			
 			id = (EditText)findViewById(R.id.id);
 			pw = (EditText)findViewById(R.id.pw);
 			
@@ -86,7 +92,7 @@ public class Account extends Activity {
 				    editor.putString("PW", pw.getText().toString()); 
 				    editor.commit();
 				    
-				    Toast.makeText(Account.this, "ADING 등록 완료", Toast.LENGTH_SHORT).show();
+				    //Toast.makeText(Account.this, "ADING 등록 완료", Toast.LENGTH_SHORT).show();
 				    finish();
 				}
 			});

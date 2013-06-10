@@ -7,61 +7,69 @@
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="15" />
+    
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />    
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        
-         <receiver android:name="com.se.seadwidget.SEAdWidget">
-            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_configuration"/>
+        <receiver android:name="com.se.seadwidget.SEAdWidget" >
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_configuration" />
+
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
-                <action android:name="com.se.seadwidget.ACTION_MENU"/>
-                <action android:name="com.se.seadwidget.ACTION_MENUAL"/>
-                <action android:name="com.se.seadwidget.ACTION_ACCOUNT"/>
-                <action android:name="com.se.seadwidget.ACTION_POINT"/>                
-                <action android:name="com.se.seadwidget.ACTION_LINK"/>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.se.seadwidget.ACTION_MENU" />
+                <action android:name="com.se.seadwidget.ACTION_MENUAL" />
+                <action android:name="com.se.seadwidget.ACTION_ACCOUNT" />
+                <action android:name="com.se.seadwidget.ACTION_POINT" />
+                <action android:name="com.se.seadwidget.ACTION_LINK" />
             </intent-filter>
         </receiver>
-        
-        <activity android:name="com.se.seadwidget.Menu">
-             <intent-filter>
-                <action android:name="com.se.seadwidget.ACTION_MENU"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+
+        <activity android:name="com.se.seadwidget.Menu" >
+            <intent-filter>
+                <action android:name="com.se.seadwidget.ACTION_MENU" />
+
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        
-        <activity android:name="com.se.seadwidget.Menual">
-             <intent-filter>
-                <action android:name="com.se.seadwidget.ACTION_MENUAL"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+        <activity android:name="com.se.seadwidget.Menual" >
+            <intent-filter>
+                <action android:name="com.se.seadwidget.ACTION_MENUAL" />
+
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
-        <activity android:name="com.se.seadwidget.Account">
-             <intent-filter>
-                <action android:name="com.se.seadwidget.ACTION_ACCOUNT"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-            </intent-filter>                       
-        </activity>
-        
-        <activity android:name="com.se.seadwidget.Point">
-             <intent-filter>
-                <action android:name="com.se.seadwidget.ACTION_POINT"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+        <activity android:name="com.se.seadwidget.Account" >
+            <intent-filter>
+                <action android:name="com.se.seadwidget.ACTION_ACCOUNT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity>        
-        
+        </activity>
+        <activity android:name="com.se.seadwidget.Point" >
+            <intent-filter>
+                <action android:name="com.se.seadwidget.ACTION_POINT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.se.seadwidget.TitleActivity"
+            android:label="@string/title_activity_base" >
+        </activity>
     </application>
+
     
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    	
 
 </manifest>

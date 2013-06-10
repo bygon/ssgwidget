@@ -1,64 +1,74 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
     tools:context=".SEAdWidget" >
-
-    <ImageView
-        android:id="@+id/account"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="104dp"
-        android:src="@drawable/shinsegaepoint" />
     
+    <include 
+    	android:id="@+id/include_top"
+    	layout="@layout/title"    
+    />
+
     <TextView
         android:id="@+id/idtxt"
-        android:layout_width="150dp"
-        android:layout_height="30dp"
-        android:layout_centerVertical="true"
-        android:layout_below="@+id/account"        
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="50dp"
-        android:text="안녕하세요!" />    
-        
-    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"                        
+        android:layout_marginTop="80dp"
+        android:layout_marginLeft="42dp"
+        android:textColor="#353535"
+        android:text="안녕하세요!" />
+    
+    <ImageView
         android:id="@+id/txnpoint"
         android:layout_width="80dp"
         android:layout_height="30dp"
-        android:layout_centerVertical="true"
-        android:layout_below="@+id/idtxt"        
+        android:layout_below="@+id/idtxt"
         android:layout_marginTop="10dp"
-        android:layout_marginLeft="50dp"
-        android:text="당일 포인트 " />
+        android:layout_marginLeft="42dp"
+        android:src="@drawable/point1" />   
     
-    <TextView
+    <ImageView
         android:id="@+id/txapoint"
         android:layout_width="80dp"
         android:layout_height="30dp"
-        android:layout_centerVertical="true"
-        android:layout_below="@+id/txnpoint"        
+        android:layout_below="@+id/txnpoint"
         android:layout_marginTop="10dp"
-        android:layout_marginLeft="50dp"
-        android:text="누적 포인트 " />
+        android:layout_marginLeft="42dp"
+        android:src="@drawable/point2" />  
     
     <TextView
         android:id="@+id/apoint"
-        android:layout_width="150dp"
+        android:layout_width="152dp"
         android:layout_height="30dp"
-        android:gravity="center"
-        android:layout_centerVertical="true"
         android:layout_below="@+id/txnpoint"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="122dp"
         android:layout_marginTop="10dp"
-        android:layout_marginLeft="120dp"/>
+        android:background="@drawable/pointinput"
+        android:gravity="right|center" 
+        android:textColor="#353535"
+        android:paddingRight="10dp"/>
 
     <TextView
         android:id="@+id/npoint"
-        android:layout_width="150dp"
+        android:layout_width="152dp"
         android:layout_height="30dp"
         android:layout_above="@+id/txapoint"
         android:layout_alignLeft="@+id/apoint"
-        android:gravity="center" />
+        android:background="@drawable/pointinput"
+        android:gravity="right|center"
+        android:textColor="#353535"
+        android:paddingRight="10dp" />
+    
+    <Button
+        android:id="@+id/ok"
+        android:layout_width="230dp"
+        android:layout_height="30dp"
+        android:layout_below="@+id/apoint"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:layout_marginTop="17dp"
+        android:background="@drawable/ok"/>
 
 </RelativeLayout>
