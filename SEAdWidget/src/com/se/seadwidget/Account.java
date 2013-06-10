@@ -1,36 +1,20 @@
 package com.se.seadwidget;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.HashMap;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.se.login.Login;
 import com.util.ATools;
 
 @SuppressLint("NewApi")
@@ -112,50 +96,12 @@ public class Account extends TitleActivity {
 			login.setOnClickListener(new View.OnClickListener() {
 				
 				@Override
-				public void onClick(View v) {
-					/*
+				public void onClick(View v) {					
 					
-					// XML을 가져온다.
-				    URL url;
-				    try {
-				    	url = new URL(getString(R.string.serverip) + getString(R.string.loginroot));
-				        URLConnection connection;
-				        connection = url.openConnection();
-
-				        HttpURLConnection httpConnection = (HttpURLConnection)connection;
-				        int responseCode = httpConnection.getResponseCode();
-				        
-				        if (responseCode == HttpURLConnection.HTTP_OK) {
-				        	InputStream in = httpConnection.getInputStream(); 
-				            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-				            DocumentBuilder db = dbf.newDocumentBuilder();
-
-				            Document dom = db.parse(in);
-				            Element docEle = dom.getDocumentElement();
-				            
-				            //정보로 구성된 리스트를 얻어온다.
-				            NodeList nl = docEle.getElementsByTagName("header");
-				            if (nl != null && nl.getLength() > 0) {
-				            	Element entry = (Element)nl.item(0);
-			                    Element code = (Element)entry.getElementsByTagName("code").item(0);
-
-			                    Login_CODE = code.getFirstChild().getNodeValue();
-				            }
-				        }
-				    } catch (MalformedURLException e) {
-				        e.printStackTrace();
-				    } catch (IOException e) {
-				        e.printStackTrace();
-				    } catch (ParserConfigurationException e) {
-				        e.printStackTrace();
-				    } catch (SAXException e) {
-				        e.printStackTrace();
-				    } finally {
-				    }
+					Login log = new Login(getString(R.string.serverip) + getString(R.string.loginroot));
+					Login_CODE = log.Check(id.getText().toString(), pw.getText().toString());
 					
-				    Toast.makeText(Account.this, "Login_CODE " + Login_CODE, Toast.LENGTH_SHORT).show();
-				    
-				    if(Login_CODE.equals("100")){
+					if(Login_CODE.equals("100") || Login_CODE.equals("110")){
 				    	SharedPreferences.Editor editor = pref.edit();
 					    editor.putBoolean("ADING", true); 
 					    editor.putString("ID", id.getText().toString()); 
@@ -165,17 +111,7 @@ public class Account extends TitleActivity {
 					    finish();
 				    }else{
 				    	Toast.makeText(Account.this, "로그인 정보가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
-				    }
-				    */
-					
-					SharedPreferences.Editor editor = pref.edit();
-				    editor.putBoolean("ADING", true); 
-				    editor.putString("ID", id.getText().toString()); 
-				    editor.putString("PW", pw.getText().toString()); 
-				    editor.commit();
-				    
-				    finish();
-					
+				    }					
 				}
 			});
 		}

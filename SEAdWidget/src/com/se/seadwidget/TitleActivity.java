@@ -28,8 +28,6 @@ public class TitleActivity extends Activity implements android.view.View.OnClick
 		
 		if(Title != null){
 			_title.setText(Title);	
-		}else{
-			_title.setText("이용안내");
 		}
 		
 		closeBtn = (Button)findViewById(R.id.closeBtn);
