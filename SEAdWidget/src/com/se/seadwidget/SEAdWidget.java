@@ -1,14 +1,34 @@
 package com.se.seadwidget;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.apache.commons.httpclient.DefaultHttpMethodRetryHandler;
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpStatus;
+import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
-import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -19,7 +39,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.StrictMode;
 import android.util.Log;
 import android.widget.RemoteViews;
 
@@ -51,7 +70,7 @@ public class SEAdWidget extends AppWidgetProvider {
 	private static String IMG_URL = "";					//현재이미지
 	private static String LINK_URL = "";				//현재광고
 
-	private static final int WIDGET_UPDATE_INTERVAL = 7000; // 7초마다 갱신	
+	private static final int WIDGET_UPDATE_INTERVAL = 5000; // 7초마다 갱신	
 	private static int rid = R.layout.widget_main;	//위젯 메인 레이아웃
 	
 	// JSON Node names 
@@ -60,8 +79,6 @@ public class SEAdWidget extends AppWidgetProvider {
 	private static JSONArray ADBOX = null;	
 	
 	private static Calendar now;
-	
-	private static final String serverIP = "http://";
 	private static final boolean DEVELOPER_MODE = true;
 		
 	@Override
@@ -94,7 +111,8 @@ public class SEAdWidget extends AppWidgetProvider {
 		
 		//서버에서 광고정보를 가져오자..  나중에 다시 정리....
 		if(imageL.size() <= 0 || imageL == null ){	//광고를 다보았다면 서버에서 다시 내려받자
-			DownLoadUrlAsynkTask urlData = new DownLoadUrlAsynkTask();
+			DownLoadUrlAsynkTask1 urlData = new DownLoadUrlAsynkTask1();
+			//DownLoadUrlAsynkTaskTemp urlData = new DownLoadUrlAsynkTaskTemp();
 			urlData.execute("MANI");
 		}
 
@@ -345,15 +363,15 @@ public class SEAdWidget extends AppWidgetProvider {
 
 	  @Override
 	  protected List<HashMap<String, String>> doInBackground(String... params) {
-		  		
+		/*  		
 		  try { 
 			  
-//			  JSONParser jParser = new JSONParser();
-//			  JSONObject json = jParser.getJSONFromUrl(serverIP + "/manitest.jsp");
+			  JSONParser jParser = new JSONParser();
+			  JSONObject json = jParser.getJSONFromUrl(serverIP + "/manitest.jsp");
 			  
-			JSONParser jParser = new JSONParser();
-			String page = jParser.getJSONFromTxt(context);	
-			JSONObject json = new JSONObject(page);				
+//			JSONParser jParser = new JSONParser();
+//			String page = jParser.getJSONFromTxt(context);	
+//			JSONObject json = new JSONObject(page);				
 			
 			ADBOX = json.getJSONArray(TAG_CONTACTS);
 			
@@ -362,8 +380,8 @@ public class SEAdWidget extends AppWidgetProvider {
 
 				HashMap map = new HashMap();
 				map.put("LINK_URL", json.getString("LINK_URL"));
-				//map.put("IMG_URL", serverIP + json.getString("IMG_URL"));
-				map.put("IMG_URL", json.getString("IMG_URL"));
+				map.put("IMG_URL", serverIP + json.getString("IMG_URL"));
+				//map.put("IMG_URL", json.getString("IMG_URL"));
 				
 				imageL.add(map);
 			}         
@@ -371,6 +389,64 @@ public class SEAdWidget extends AppWidgetProvider {
          } catch (Exception e) {
              Log.e("NewsApp", "예외발생 :"+e.getMessage());
          }
+         */	  
+		  
+		    // XML을 가져온다.
+		    URL url;
+		    try {
+		    	Log.e("start", "start");
+		    	 
+		        url = new URL("http://admin.shinsegaead.com:8080/test.xml");
+		        URLConnection connection;
+		        connection = url.openConnection();
+
+		        HttpURLConnection httpConnection = (HttpURLConnection)connection;
+		        int responseCode = httpConnection.getResponseCode();
+		        
+		        Log.e("responseCode >>", responseCode + " | " + HttpURLConnection.HTTP_OK + "");
+
+		        if (responseCode == HttpURLConnection.HTTP_OK) {
+		        	Log.e("HTTP_OK >>", "HTTP_OK >>");
+		        	
+		            InputStream in = httpConnection.getInputStream(); 
+		            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		            DocumentBuilder db = dbf.newDocumentBuilder();
+
+		            Document dom = db.parse(in);
+		            Element docEle = dom.getDocumentElement();
+		            
+		            //정보로 구성된 리스트를 얻어온다.
+		            NodeList nl = docEle.getElementsByTagName("campaign");
+		            if (nl != null && nl.getLength() > 0) {
+		                for (int i = 0 ; i < nl.getLength(); i++) {
+		                    Element entry = (Element)nl.item(i);
+		                    Element IMG_URL = (Element)entry.getElementsByTagName("image").item(0);
+		                    Element LINK_URL = (Element)entry.getElementsByTagName("url").item(0);
+
+		                    String IMG_URLS = IMG_URL.getFirstChild().getNodeValue();
+		                    String LINK_URLS = LINK_URL.getFirstChild().getNodeValue();
+		                    
+		                    HashMap map = new HashMap();
+		    				map.put("IMG_URL", "http://admin.shinsegaead.com:8080" + IMG_URLS);
+		    				map.put("LINK_URL", LINK_URLS);
+		    						    				
+		    				imageL.add(map);
+		    				
+		    				Log.e("DownLoadUrlAsynkTask", i + "");
+		                    
+		                }
+		            }
+		        }
+		    } catch (MalformedURLException e) {
+		        e.printStackTrace();
+		    } catch (IOException e) {
+		        e.printStackTrace();
+		    } catch (ParserConfigurationException e) {
+		        e.printStackTrace();
+		    } catch (SAXException e) {
+		        e.printStackTrace();
+		    } finally {
+		    }
 	   
 		 return null;
 	  }
@@ -382,6 +458,120 @@ public class SEAdWidget extends AppWidgetProvider {
 		  //여기서 서버로 포인트를 보내볼까
 	  
 	 } 
-  }
+    }
+	
+	public class DownLoadUrlAsynkTaskTemp extends AsyncTask<String, Void, List<HashMap<String, String>>>{		
+
+		  @Override
+		  protected List<HashMap<String, String>> doInBackground(String... params) {
+			  		
+			  try { 
+				  
+				 JSONParser jParser = new JSONParser();
+				String page = jParser.getJSONFromTxt(context);	
+				JSONObject json = new JSONObject(page);				
+				
+				ADBOX = json.getJSONArray(TAG_CONTACTS);
+				
+				for(int i = 0; i < ADBOX.length(); i++){ 
+					json = ADBOX.getJSONObject(i); 
+
+					HashMap map = new HashMap();
+					map.put("LINK_URL", json.getString("LINK_URL"));
+					map.put("IMG_URL", json.getString("IMG_URL"));
+					
+					imageL.add(map);
+				}         
+		    
+	         } catch (Exception e) {
+	             Log.e("NewsApp", "예외발생 :"+e.getMessage());
+	         }
+	         		   
+			 return null;
+		  }
+
+		  @Override
+		  protected void onPostExecute(List<HashMap<String, String>> result) {
+			  super.onPostExecute(result);
+			  //Toast.makeText(context, "onPostExecute", Toast.LENGTH_SHORT).show();
+			  //여기서 서버로 포인트를 보내볼까
+		  
+		 } 
+	    }
+	
+	
+	public class DownLoadUrlAsynkTask1 extends AsyncTask<String, Void, List<HashMap<String, String>>>{		
+
+		  @Override
+		  protected List<HashMap<String, String>> doInBackground(String... params) { 
+			  
+			    // XML을 가져온다.
+			    try {
+			    	GetMethod method = new GetMethod(SEAdWidget.context.getString(R.string.serverip) + SEAdWidget.context.getString(R.string.addroot));
+			        method.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, new DefaultHttpMethodRetryHandler(2, false));
+			        
+			        HttpClient client = new HttpClient();
+			        int statusCode = client.executeMethod(method);
+			        
+			        Log.e("statusCode", statusCode + "<>" + HttpStatus.SC_OK);
+			        
+			        if (statusCode != HttpStatus.SC_OK) {
+			        	Log.e("statusCode", statusCode + "<>" + HttpStatus.SC_OK);
+			            
+			        }else{			        
+			        			        
+				        InputStream in = method.getResponseBodyAsStream();
+			            
+			            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+			            DocumentBuilder db = dbf.newDocumentBuilder();
+	
+			            Document dom = db.parse(in);
+			            Element docEle = dom.getDocumentElement();
+			            
+			            //정보로 구성된 리스트를 얻어온다.
+			            NodeList nl = docEle.getElementsByTagName("campaign");
+			            if (nl != null && nl.getLength() > 0) {
+			                for (int i = 0 ; i < nl.getLength(); i++) {
+			                    Element entry = (Element)nl.item(i);
+			                    Element IMG_URL = (Element)entry.getElementsByTagName("image").item(0);
+			                    Element LINK_URL = (Element)entry.getElementsByTagName("url").item(0);
+	
+			                    String IMG_URLS = IMG_URL.getFirstChild().getNodeValue();
+			                    String LINK_URLS = LINK_URL.getFirstChild().getNodeValue();
+			                    
+			                    HashMap map = new HashMap();
+			    				map.put("IMG_URL", SEAdWidget.context.getString(R.string.serverip) + IMG_URLS);
+			    				map.put("LINK_URL", LINK_URLS);
+			    						    				
+			    				imageL.add(map);
+			    				
+			    				Log.e("DownLoadUrlAsynkTask", i + "");
+			                    
+			                }
+			            }
+			        }			        
+			        
+			    } catch (MalformedURLException e) {
+			        e.printStackTrace();
+			    } catch (IOException e) {
+			        e.printStackTrace();
+			    } catch (ParserConfigurationException e) {
+			        e.printStackTrace();
+			    } catch (SAXException e) {
+			        e.printStackTrace();
+			    } finally {
+			    }
+			    
+			 return null;
+		  }
+
+		  @Override
+		  protected void onPostExecute(List<HashMap<String, String>> result) {
+			  super.onPostExecute(result);
+			  //Toast.makeText(context, "onPostExecute", Toast.LENGTH_SHORT).show();
+			  //여기서 서버로 포인트를 보내볼까
+		  
+		 } 
+	    }
 	
 }
