@@ -1,27 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/title"
+    android:background="@drawable/sinc5_ui_02_abar4"
 >
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:gravity="center"
-        android:text="이용안내"
-        android:textColor="#FFFFFF"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-    
     <Button
         android:id="@+id/closeBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"        
-        android:background="@drawable/close" />    
+        android:background="@drawable/sinc5_ui_02_abar_btn_x" />    
 
 </RelativeLayout>

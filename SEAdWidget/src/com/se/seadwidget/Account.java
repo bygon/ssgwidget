@@ -99,7 +99,7 @@ public class Account extends TitleActivity {
 				public void onClick(View v) {					
 					
 					Login log = new Login(getString(R.string.serverip) + getString(R.string.loginroot));
-					Login_CODE = log.Check(id.getText().toString(), pw.getText().toString());
+					Login_CODE = log.Check2(id.getText().toString(), pw.getText().toString());
 					
 					if(Login_CODE.equals("100") || Login_CODE.equals("110")){
 				    	SharedPreferences.Editor editor = pref.edit();

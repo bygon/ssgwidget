@@ -18,37 +18,16 @@
         android:layout_weight="1" >
         
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
             <ImageView
                 android:id="@+id/m1"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/m1"                 
+                android:src="@drawable/sinc5_ui_03_text_bg33"                 
         		android:scaleType="matrix" />
-            
-            <ImageView
-                android:id="@+id/m2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:src="@drawable/m2" 
-                android:scaleType="matrix"/>
-            
-            <ImageView
-                android:id="@+id/m3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:src="@drawable/m3" 
-                android:scaleType="matrix"/>
-            
-            <ImageView
-                android:id="@+id/m4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:src="@drawable/m4" 
-                android:scaleType="matrix"/>
 		    
 		</LinearLayout>
     

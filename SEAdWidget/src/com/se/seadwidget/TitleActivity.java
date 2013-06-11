@@ -24,10 +24,9 @@ public class TitleActivity extends Activity implements android.view.View.OnClick
 		
 		Intent intent = getIntent(); 
 		String Title = intent.getStringExtra("Title");
-		_title = (TextView)findViewById(R.id.title);
 		
 		if(Title != null){
-			_title.setText(Title);	
+			//_title.setText(Title);	
 		}
 		
 		closeBtn = (Button)findViewById(R.id.closeBtn);

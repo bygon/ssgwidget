@@ -76,9 +76,8 @@ public class SEAdWidget extends AppWidgetProvider {
 		
 		Log.e("HOUR_OF_DAY", now.get(Calendar.HOUR_OF_DAY) + "");
 		
-		//서버에서 광고정보를 가져오자..  나중에 다시 정리....
+		//서버에서 광고정보를 가져오자..  로긴 안했어도 일단 가져온다. 뿌리는건 로긴 후
 		if(imageL.size() <= 0 || imageL == null ){	//광고를 다보았다면 서버에서 다시 내려받자
-			//DownLoadUrlAsynkTask urlData = new DownLoadUrlAsynkTask();
 			DownLoadUrlAsynkTask urlData = new DownLoadUrlAsynkTask();
 			urlData.execute("MANI");
 		}
@@ -331,7 +330,7 @@ public class SEAdWidget extends AppWidgetProvider {
 			 try { 
 				  
 				  AdBoxDownloader adbox = new AdBoxDownloader(context);
-				  imageL = adbox.GetAdBox();
+				  imageL = adbox.GetAdBox2();
 		    
 	         } catch (Exception e) {
 	             Log.e("NewsApp", "예외발생 :"+e.getMessage());

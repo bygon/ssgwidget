@@ -90,7 +90,7 @@ public class Login {
 		
 	
 	
-	public static String Check2(){		
+	public static String Check2(String id, String pw){		
 		return "100";
 	    
 	}	

@@ -9,66 +9,72 @@
     	android:id="@+id/include_top"
     	layout="@layout/title"    
     />
+    
+    <LinearLayout android:gravity="center_vertical"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/idtxt"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"                        
-        android:layout_marginTop="80dp"
-        android:layout_marginLeft="42dp"
-        android:textColor="#353535"
-        android:text="안녕하세요!" />
-    
-    <ImageView
-        android:id="@+id/txnpoint"
-        android:layout_width="80dp"
-        android:layout_height="30dp"
-        android:layout_below="@+id/idtxt"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="42dp"
-        android:src="@drawable/point1" />   
-    
-    <ImageView
-        android:id="@+id/txapoint"
-        android:layout_width="80dp"
-        android:layout_height="30dp"
-        android:layout_below="@+id/txnpoint"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="42dp"
-        android:src="@drawable/point2" />  
-    
-    <TextView
-        android:id="@+id/apoint"
-        android:layout_width="152dp"
-        android:layout_height="30dp"
-        android:layout_below="@+id/txnpoint"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="122dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/pointinput"
-        android:gravity="right|center" 
-        android:textColor="#353535"
-        android:paddingRight="10dp"/>
-
-    <TextView
-        android:id="@+id/npoint"
-        android:layout_width="152dp"
-        android:layout_height="30dp"
-        android:layout_above="@+id/txapoint"
-        android:layout_alignLeft="@+id/apoint"
-        android:background="@drawable/pointinput"
-        android:gravity="right|center"
-        android:textColor="#353535"
-        android:paddingRight="10dp" />
-    
-    <Button
-        android:id="@+id/ok"
-        android:layout_width="230dp"
-        android:layout_height="30dp"
-        android:layout_below="@+id/apoint"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:layout_marginTop="17dp"
-        android:background="@drawable/ok"/>
+	    <TextView
+	        android:id="@+id/idtxt"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"                        
+	        android:layout_marginTop="80dp"
+	        android:layout_marginLeft="42dp"
+	        android:textColor="#353535"
+	        android:text="안녕하세요!" />
+	    
+	    <ImageView
+	        android:id="@+id/txnpoint"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/idtxt"
+	        android:layout_marginTop="10dp"
+	        android:layout_marginLeft="42dp"
+	        android:src="@drawable/sinc5_ui_05_point_item1" />   
+	    
+	    <ImageView
+	        android:id="@+id/txapoint"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/txnpoint"
+	        android:layout_marginTop="10dp"
+	        android:layout_marginLeft="42dp"
+	        android:src="@drawable/sinc5_ui_05_point_item2" />  
+	    
+	    <TextView
+	        android:id="@+id/apoint"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/txnpoint"
+	        android:layout_centerVertical="true"
+	        android:layout_marginLeft="122dp"
+	        android:layout_marginTop="10dp"
+	        android:background="@drawable/sinc5_ui_05_point_form"
+	        android:gravity="right|center" 
+	        android:textColor="#353535"
+	        android:paddingRight="10dp"/>
+	
+	    <TextView
+	        android:id="@+id/npoint"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_above="@+id/txapoint"
+	        android:layout_alignLeft="@+id/apoint"
+	        android:background="@drawable/sinc5_ui_05_point_form"
+	        android:gravity="right|center"
+	        android:textColor="#353535"
+	        android:paddingRight="10dp" />
+	    
+	    <Button
+	        android:id="@+id/ok"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/apoint"
+	        android:layout_centerHorizontal="true"
+	        android:gravity="center"
+	        android:layout_marginTop="17dp"
+	        android:background="@drawable/sinc5_ui_05_point_btn"/>
+	    
+	</LinearLayout>
 
 </RelativeLayout>
