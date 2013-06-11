@@ -16,7 +16,7 @@
         android:id="@+id/idtxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:textColor="#353535"
         android:textSize="18sp"
         android:text="안녕하세요!" />
@@ -38,6 +38,9 @@
 		        android:layout_height="wrap_content"       
 		        android:textColor="#4C4C4C"
 		        android:layout_marginLeft="3dp"
+		        android:textSize="24sp"
+		        android:gravity="center_vertical|right"
+		        android:paddingRight="10dp"
 		        android:background="@drawable/sinc5_ui_05_point_form"/>
 		    
 	</LinearLayout>
@@ -60,6 +63,9 @@
 		        android:layout_height="wrap_content"       
 		        android:textColor="#4C4C4C"
 		        android:layout_marginLeft="3dp"
+		        android:textSize="24sp"
+		        android:gravity="center_vertical|right"
+		        android:paddingRight="10dp"
 		        android:background="@drawable/sinc5_ui_05_point_form"/>
 		    
 	</LinearLayout>

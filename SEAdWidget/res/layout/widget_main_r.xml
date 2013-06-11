@@ -1,23 +1,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical"   
-    android:gravity="center_horizontal" 
     android:background="@drawable/sinc5_ui_01_wid_bg1"
-    android:layout_gravity="center_horizontal"
-    tools:context=".SEAdWidget">
-    
-    <Button
-         android:id="@+id/menuBtn"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_gravity="right"
-         android:background="@drawable/sinc5_ui_01_wid_btn12" />
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
 
+    <Button
+        android:id="@+id/menuBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:background="@drawable/sinc5_ui_01_wid_btn12"
+        android:layout_marginTop="-8.5dp"/>
+    
     <FrameLayout 
          android:layout_width="wrap_content"
-         android:layout_height="wrap_content">
+         android:layout_height="wrap_content"
+         android:layout_marginTop="-8dp">
         
 	    <ImageView
 	         android:id="@+id/addImage"
@@ -30,7 +29,8 @@
 			   android:layout_width="wrap_content"
 	           android:layout_height="wrap_content"
 	           android:orientation="vertical" 
-	           android:layout_gravity="right">
+	           android:layout_gravity="right"
+	           >
 	           
 			<Button
 	            android:id="@+id/menu1"
@@ -55,3 +55,4 @@
     </FrameLayout>
 
 </LinearLayout>
+

@@ -1,28 +1,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"    
+    android:layout_height="wrap_content"
+    android:background="@drawable/sinc5_ui_01_wid_bg1"
     android:gravity="center_horizontal"
     android:orientation="vertical" >
 
-    <LinearLayout
+    <Button
+        android:id="@+id/menuBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/sinc5_ui_01_wid_bg1" >
+        android:layout_gravity="right"
+        android:background="@drawable/sinc5_ui_01_wid_btn11" 
+        android:layout_marginTop="-8.5dp"/>
 
-        <Button
-            android:id="@+id/menuBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:background="@drawable/sinc5_ui_01_wid_btn11" />
-
-        <ImageView
-            android:id="@+id/addImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/sinc5_ui_01_wid_reg_bg2" />
-        
-    </LinearLayout>
+    <ImageView
+        android:id="@+id/addImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/sinc5_ui_01_wid_reg_bg2" 
+		android:layout_marginTop="-8dp"/>>
 
 </LinearLayout>

@@ -29,6 +29,7 @@
 		        android:layout_height="wrap_content"       
 		        android:textColor="#4C4C4C"
 		        android:layout_marginLeft="3dp"
+		        android:paddingLeft="10dp"
 		        android:background="@drawable/sinc5_ui_04_login_form"/>
 		    
 	</LinearLayout>
@@ -51,6 +52,7 @@
 		        android:inputType="textPassword"
 		        android:textColor="#4C4C4C"
 		        android:layout_marginLeft="3dp"
+		        android:paddingLeft="10dp"
 		        android:background="@drawable/sinc5_ui_04_login_form"/>
 		    
 	</LinearLayout>
