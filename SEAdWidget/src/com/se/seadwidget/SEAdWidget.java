@@ -155,7 +155,7 @@ public class SEAdWidget extends AppWidgetProvider {
 			IMG_URL = "";
 			imageL.clear();
 			
-			views.setImageViewResource(R.id.addImage, R.drawable.initimg);			
+			views.setImageViewResource(R.id.addImage, R.drawable.sinc5_ui_01_wid_reg_bg2);			
 			for (int appWidgetId : appWidgetIds) {
 				appWidgetManager.updateAppWidget(appWidgetId, views);
 			}
@@ -173,7 +173,7 @@ public class SEAdWidget extends AppWidgetProvider {
 		}else{
 			rid = R.layout.widget_main;
 		}
-		views = new RemoteViews(context.getPackageName(), rid);	//메뉴 누를 때		
+		views = new RemoteViews(context.getPackageName(), rid);	//메뉴 누를 때
 		
 		Intent mintent = new Intent(Const.ACTION_MENU);
 		Intent sintent = new Intent(Const.ACTION_MENUAL);
@@ -192,16 +192,16 @@ public class SEAdWidget extends AppWidgetProvider {
 		views.setOnClickPendingIntent(R.id.menu2, aPintent);	//계정등록
 		views.setOnClickPendingIntent(R.id.menu3, pPintent);	//내포인트		
 		views.setOnClickPendingIntent(R.id.addImage, lPintent);	//링크
-						
+		
 		if(ADING){		//계정등록 한다면.... 광고 넣어준다.			
 			
 			//현재 셋팅된 광고이미지를 비동기로 가져온다 		
-			ImageDownloaderAsynkTask imageDownTask = new ImageDownloaderAsynkTask(IMG_URL, views,appWidgetIds, appWidgetManager, this.context);
+			ImageDownloaderAsynkTask imageDownTask = new ImageDownloaderAsynkTask(IMG_URL, views, appWidgetIds, appWidgetManager, this.context);
 			imageDownTask.execute(IMG_URL);
 			
 		}else{
 			
-			views.setImageViewResource(R.id.addImage, R.drawable.initimg);			
+			views.setImageViewResource(R.id.addImage, R.drawable.sinc5_ui_01_wid_reg_bg2);			
 			for (int appWidgetId : appWidgetIds) {
 				appWidgetManager.updateAppWidget(appWidgetId, views);
 			}
@@ -285,12 +285,12 @@ public class SEAdWidget extends AppWidgetProvider {
 		switch (pageIdx) {
 			case CUSTOMER_MENUAL:
 				intent = new Intent("com.se.seadwidget.ACTION_MENUAL");
-				intent.putExtra("Title", "이용안내"); //타이틀
+				intent.putExtra("src", "sinc5_ui_02_abar4");
 				break;
 				
 			case CUSTOMER_ACCOUNT:
 				intent = new Intent("com.se.seadwidget.ACTION_ACCOUNT");				
-				intent.putExtra("Title", "계정등록"); //타이틀
+				intent.putExtra("src", "sinc5_ui_02_abar1");
 				intent.putExtra("Point", point + ""); //포인트화면에 당일포인트 전달
 				break;
 				
@@ -298,11 +298,12 @@ public class SEAdWidget extends AppWidgetProvider {
 				intent = new Intent("com.se.seadwidget.ACTION_POINT");
 				intent.putExtra("Point", point + ""); //포인트화면에 당일포인트 전달
 				intent.putExtra("TotPoint", totpoint + ""); //포인트화면에 누적포인트 전달
-				intent.putExtra("Title", "포인트 확인"); //타이틀
+				intent.putExtra("src", "sinc5_ui_02_abar2");
 				break;
 				
 			case CUSTOMER_LINK:
 				intent = new Intent(Intent.ACTION_VIEW);
+				intent.putExtra("src", "sinc5_ui_02_abar4");
 			    Uri u = Uri.parse(LINK_URL);	//광고클릭 시 해당 광고 사이트 호출
 			    intent.setData(u);
 				break;

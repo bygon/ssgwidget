@@ -1,44 +1,45 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="#ffffff"
-    tools:context=".SEAdWidget" >
+    android:gravity="center_horizontal" 
+    tools:context=".SEAdWidget">
     
      <include 
     	android:id="@+id/include_top"
     	layout="@layout/title"    
     />
-
-    <ImageView
-        android:id="@+id/account"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="80dp"
-        android:src="@drawable/shinsegaepoint" />
-    
-    
-    <TextView
-        android:id="@+id/idtxt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_below="@+id/account"        
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="50dp"
-        android:textColor="#353535"
-        android:text="안녕하세요!" />    
-   
+     
+     <LinearLayout
+         android:layout_width="305dp"
+         android:layout_height="wrap_content"
+         android:gravity="left"
+         android:paddingTop="20dp" >
+		    
+	    <ImageView
+	        android:id="@+id/account"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:src="@drawable/sinc5_ui_06_map_mark" />
+	
+	    <TextView
+	        android:id="@+id/idtxt"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="50dp"
+	        android:textColor="#353535"
+	        android:textSize="18sp"
+	        android:text="안녕하세요!" />
+		    		    
+	</LinearLayout>
+	
     <Button
         android:id="@+id/logout"
-        android:layout_width="80dp"
-        android:layout_height="30dp"
-        android:layout_below="@+id/idtxt"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="120dp"        
-        android:background="@drawable/logout" />
-    
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"        
+        android:layout_marginTop="20dp"
+        android:background="@drawable/sinc5_ui_04_login_btn1"/>    
 
-</RelativeLayout>
+</LinearLayout>
