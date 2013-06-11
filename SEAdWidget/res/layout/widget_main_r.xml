@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/sinc5_ui_01_wid_bg1"
+    android:background="@drawable/sinc5_ui_wid_newbg"
     android:gravity="center_horizontal"
     android:orientation="vertical" >
 
@@ -22,7 +22,7 @@
 	         android:id="@+id/addImage"
 	         android:layout_width="wrap_content"
 	         android:layout_height="wrap_content"
-	         android:src="@drawable/sinc5_ui_01_wid_reg_bg2" 
+	         android:src="@drawable/sinc5_ui_wid_regbtn" 
 	     />
 	      
 	    <LinearLayout
@@ -34,25 +34,50 @@
 	           
 			<Button
 	            android:id="@+id/menu1"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
+	            android:layout_width="64dp"
+	            android:layout_height="30dp"
 	            android:background="@drawable/sinc5_ui_01_wid_menu_btn21" />
 			
 			<Button
 	            android:id="@+id/menu2"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
+	            android:layout_width="64dp"
+	            android:layout_height="30dp"
 	            android:background="@drawable/sinc5_ui_01_wid_menu_btn22" />
 			
 			<Button
 	            android:id="@+id/menu3"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
+	            android:layout_width="64dp"
+	            android:layout_height="30dp"
 	            android:background="@drawable/sinc5_ui_01_wid_menu_btn23" />
 			
 	       </LinearLayout> 
        
     </FrameLayout>
+    
+	<LinearLayout android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:gravity="left" 
+	    android:id="@+id/pointB" 
+	    android:visibility="invisible">
+	    
+	    <ImageView
+	        android:id="@+id/notice"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="left"
+	        android:layout_marginLeft="10dp"
+	        android:src="@drawable/sinc5_ui_01_wid_btn21" />
+	
+		<TextView
+	        android:id="@+id/AdText"
+	        android:layout_width="200dp"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="left|center_vertical"
+	        android:textColor="#D5D5D5"
+	        android:textSize="13sp" 
+	        android:text = "" />
+		
+	</LinearLayout>
 
 </LinearLayout>
 

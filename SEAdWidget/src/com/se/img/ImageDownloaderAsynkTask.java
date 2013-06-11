@@ -12,6 +12,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
 import android.widget.RemoteViews;
 
 import com.se.seadwidget.Const;
@@ -25,8 +26,9 @@ public class ImageDownloaderAsynkTask extends AsyncTask<String, Void, Bitmap>
 	public AppWidgetManager widgetManager;
 	public RemoteViews rViews;
 	public Context context;
+	public boolean pointB;
 
-	public ImageDownloaderAsynkTask(String url, RemoteViews imageView, int[] appWidgetIds, AppWidgetManager appWidgetManager, Context context)
+	public ImageDownloaderAsynkTask(String url, RemoteViews imageView, int[] appWidgetIds, AppWidgetManager appWidgetManager, Context context, boolean pointB)
 	{
 		Log.e("ImageDownloaderAsynkTask", "url = " +url);
 		this.targetUrl = url;
@@ -34,6 +36,7 @@ public class ImageDownloaderAsynkTask extends AsyncTask<String, Void, Bitmap>
 		this.widgetIds = appWidgetIds;
 		this.widgetManager = appWidgetManager;
 		this.context = context;
+		this.pointB = pointB;
 	}
 	
 	@Override
@@ -50,7 +53,7 @@ public class ImageDownloaderAsynkTask extends AsyncTask<String, Void, Bitmap>
 			bis.close();
 		}
 		catch (Exception e){
-			e.printStackTrace();
+			Log.e("ImageDownloaderAsynkTask", "예외발생 :"+e.getMessage());
 		}
 		Log.e("ImageDownloaderAsynkTask", "imgBitmap = " +imgBitmap);
 		return imgBitmap;
@@ -62,8 +65,17 @@ public class ImageDownloaderAsynkTask extends AsyncTask<String, Void, Bitmap>
 		}
 		Log.e("ImageDownloaderAsynkTask", "onPostExecute = " +bitmap);
 		
-		rViews.setImageViewBitmap(R.id.addImage, bitmap);	//이제 이미지를 올려보자...
-		for (int appWidgetId : widgetIds) {	//이미지를 올렸으면 위젯 갱신
+		rViews.setImageViewBitmap(R.id.addImage, bitmap);	//이제 이미지를 올려보자...		
+		
+		if(pointB){
+			rViews.setViewVisibility(R.id.pointB, View.VISIBLE);
+			
+			rViews.setTextViewText(R.id.AdText, "1포인트 적립되었습니다.");
+		}else{
+			rViews.setViewVisibility(R.id.pointB, View.INVISIBLE);
+		}
+		
+		for (int appWidgetId : widgetIds) {					//이미지를 올렸으면 위젯 갱신
 			widgetManager.updateAppWidget(appWidgetId, rViews);
 		}
 	}

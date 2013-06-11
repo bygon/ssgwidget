@@ -40,6 +40,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"        
         android:layout_marginTop="20dp"
-        android:background="@drawable/sinc5_ui_04_login_btn1"/>    
+        android:background="@drawable/sinc5_ui_btn_init"/>    
 
 </LinearLayout>

@@ -1,5 +1,7 @@
 package com.se.seadwidget;
 
+import java.util.HashMap;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -27,7 +29,7 @@ public class Account extends TitleActivity {
 	private TextView idtxt;
 	private SharedPreferences pref;
 	private boolean ADING = false;
-	private String Login_CODE = "0";
+	private HashMap MM = new HashMap();
 	private ATools tools = new ATools();
 	private static final boolean DEVELOPER_MODE = true;
 	
@@ -57,7 +59,7 @@ public class Account extends TitleActivity {
 			Intent intent = getIntent(); 
 			String Point = intent.getStringExtra("Point");			
 			
-			idtxt.setText("안녕하세요! " + pref.getString("ID",  "")  +  "님\nTODAY " + tools.moneyFmt(Point) + "포인트 적립되었습니다.");
+			idtxt.setText("안녕하세요! " + pref.getString("NAME",  "")  +  "님\nTODAY " + tools.moneyFmt(Point) + "포인트 적립되었습니다.");
 			
 			logout.setOnClickListener(new View.OnClickListener() {
 				
@@ -99,19 +101,25 @@ public class Account extends TitleActivity {
 				public void onClick(View v) {					
 					
 					Login log = new Login(getString(R.string.serverip) + getString(R.string.loginroot));
-					Login_CODE = log.Check2(id.getText().toString(), pw.getText().toString());
+					MM = log.Check(id.getText().toString(), pw.getText().toString());
 					
-					if(Login_CODE.equals("100") || Login_CODE.equals("110")){
-				    	SharedPreferences.Editor editor = pref.edit();
-					    editor.putBoolean("ADING", true); 
-					    editor.putString("ID", id.getText().toString()); 
-					    editor.putString("PW", pw.getText().toString()); 
-					    editor.commit();
-					    
-					    finish();
-				    }else{
-				    	Toast.makeText(Account.this, "로그인 정보가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
-				    }					
+					if(MM.size() > 0){
+					
+						if(MM.get("Login_CODE").toString().equals("100") || MM.get("Login_CODE").toString().equals("110")){
+					    	SharedPreferences.Editor editor = pref.edit();
+						    editor.putBoolean("ADING", true); 
+						    editor.putString("ID", id.getText().toString()); 
+						    editor.putString("PW", pw.getText().toString());
+						    editor.putString("NAME", MM.get("MEMBER").toString());
+						    editor.commit();
+						    
+						    finish();
+					    }else{
+					    	Toast.makeText(Account.this, "로그인 정보가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
+					    }
+					}else{
+						Toast.makeText(Account.this, "로그인 정보가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
+					}
 				}
 			});
 		}

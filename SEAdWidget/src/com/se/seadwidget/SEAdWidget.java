@@ -31,7 +31,7 @@ public class SEAdWidget extends AppWidgetProvider {
 	private static int idx = 0;
 	private static int point = 0;
 	private static int totpoint = 0;
-	private static int totpoint_h = 0;;
+	private static String Point_Day = "";
 	
 	private static Boolean isOpen = false;
 
@@ -50,7 +50,11 @@ public class SEAdWidget extends AppWidgetProvider {
 	private static int rid = R.layout.widget_main;	//위젯 메인 레이아웃
 	
 	private static Calendar now;
-		
+	private static String Year = "";
+	private static String Month = "";
+	private static String Day = "";
+	private static boolean pointB = false;
+			
 	@Override
 	public void onEnabled(Context context) {
 		super.onEnabled(context);
@@ -58,23 +62,19 @@ public class SEAdWidget extends AppWidgetProvider {
 
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-		//Toast.makeText(context, "onUpdate > " + imageL.size() + " MENU " + isOpen, Toast.LENGTH_SHORT).show();		
-		Log.e("onUpdate", "onUpdate");
-		
-		now =  Calendar.getInstance();
+		//Toast.makeText(context, "onUpdate > " + imageL.size() + " MENU " + isOpen, Toast.LENGTH_SHORT).show();	
+		Log.e("onUpdate", "onUpdate");		
 				
-		//totpoint_h 여기에 오늘날짜 설정		
-		//if(totpoint_h != sysdate && now.get(Calendar.HOUR_OF_DAY) == "24"){
-			
-		//}
+		now =  Calendar.getInstance();		
+		Year = Integer.toString(now.get(Calendar.YEAR));		
+		Month = Integer.toString(now.get(Calendar.MONTH));
+		Day = Integer.toString(now.get(Calendar.DATE));		
 		
-		if(totpoint_h != now.get(Calendar.HOUR_OF_DAY) || totpoint <= 0){	//시간단위로 누적포인트를 가져보자.
+		if(Point_Day != (Year + Month + Day)  && now.get(Calendar.HOUR_OF_DAY) == 0){	//24시에 전송
 			totpoint += point;
-			totpoint_h = now.get(Calendar.HOUR_OF_DAY); //누적시킨 시간 값 셋팅
+			Point_Day =  (Year + Month + Day) ; //누적시킨 시간 값 셋팅
 			point = 0;	//당일포인트 초기화
 		}
-		
-		Log.e("HOUR_OF_DAY", now.get(Calendar.HOUR_OF_DAY) + "");
 		
 		//서버에서 광고정보를 가져오자..  로긴 안했어도 일단 가져온다. 뿌리는건 로긴 후
 		if(imageL.size() <= 0 || imageL == null ){	//광고를 다보았다면 서버에서 다시 내려받자
@@ -113,7 +113,6 @@ public class SEAdWidget extends AppWidgetProvider {
 		}
 		
 		views = new RemoteViews(context.getPackageName(), rid);	//메뉴 누를 때		
-		
 		Intent mintent = new Intent(Const.ACTION_MENU);
 		Intent sintent = new Intent(Const.ACTION_MENUAL);
 		Intent aintent = new Intent(Const.ACTION_ACCOUNT);
@@ -131,11 +130,11 @@ public class SEAdWidget extends AppWidgetProvider {
 		views.setOnClickPendingIntent(R.id.menu2, aPintent);	//계정등록
 		views.setOnClickPendingIntent(R.id.menu3, pPintent);	//내포인트		
 		views.setOnClickPendingIntent(R.id.addImage, lPintent);	//링크
-		//views.setViewVisibility(R.id.menu1, View.INVISIBLE);		
+		//views.setViewVisibility(R.id.menu1, View.INVISIBLE);
 						
 		if(ADING){		//계정등록 한다면.... 광고 넣어준다.
 			idx++;
-			point++;	//이미지 바뀔때마다 포인트를 줘볼까?
+			//point++;	//이미지 바뀔때마다 포인트를 줘볼까?
 			
 			if(imageL.size() > 0){
 				HashMap m = new HashMap();	//가져온광고에서 첫번째꺼를 빼오고 지운다.... 다지우면 다시 가져오기
@@ -144,8 +143,15 @@ public class SEAdWidget extends AppWidgetProvider {
 				LINK_URL = m.get("LINK_URL").toString();
 				imageL.remove(0);	//맨첫번째꺼를 계속 빼먹는다.
 				
+				if(imageL.size() == 0){
+					point++;	//광고 박스 다볼때 포인트 쌓아준다.
+					pointB = true;
+				}else{
+					pointB = false;
+				}
+				
 				//광고이미지를 비동기로 가져온다 		
-				ImageDownloaderAsynkTask imageDownTask = new ImageDownloaderAsynkTask(IMG_URL, views,appWidgetIds, appWidgetManager, this.context);
+				ImageDownloaderAsynkTask imageDownTask = new ImageDownloaderAsynkTask(IMG_URL, views,appWidgetIds, appWidgetManager, this.context, pointB);
 				imageDownTask.execute(IMG_URL);
 			}		
 			
@@ -155,7 +161,7 @@ public class SEAdWidget extends AppWidgetProvider {
 			IMG_URL = "";
 			imageL.clear();
 			
-			views.setImageViewResource(R.id.addImage, R.drawable.sinc5_ui_01_wid_reg_bg2);			
+			views.setImageViewResource(R.id.addImage, R.drawable.sinc5_ui_wid_regbtn);			
 			for (int appWidgetId : appWidgetIds) {
 				appWidgetManager.updateAppWidget(appWidgetId, views);
 			}
@@ -193,15 +199,15 @@ public class SEAdWidget extends AppWidgetProvider {
 		views.setOnClickPendingIntent(R.id.menu3, pPintent);	//내포인트		
 		views.setOnClickPendingIntent(R.id.addImage, lPintent);	//링크
 		
-		if(ADING){		//계정등록 한다면.... 광고 넣어준다.			
+		if(ADING){	//계정등록 한다면.... 광고 넣어준다.
 			
 			//현재 셋팅된 광고이미지를 비동기로 가져온다 		
-			ImageDownloaderAsynkTask imageDownTask = new ImageDownloaderAsynkTask(IMG_URL, views, appWidgetIds, appWidgetManager, this.context);
+			ImageDownloaderAsynkTask imageDownTask = new ImageDownloaderAsynkTask(IMG_URL, views, appWidgetIds, appWidgetManager, this.context, pointB);
 			imageDownTask.execute(IMG_URL);
 			
 		}else{
 			
-			views.setImageViewResource(R.id.addImage, R.drawable.sinc5_ui_01_wid_reg_bg2);			
+			views.setImageViewResource(R.id.addImage, R.drawable.sinc5_ui_wid_regbtn);			
 			for (int appWidgetId : appWidgetIds) {
 				appWidgetManager.updateAppWidget(appWidgetId, views);
 			}
@@ -250,7 +256,6 @@ public class SEAdWidget extends AppWidgetProvider {
 			}else{
 				isOpen = true;
 			}
-			
 			AppWidgetManager manager = AppWidgetManager.getInstance(context);
 			initMenu(context, manager, manager.getAppWidgetIds(new ComponentName(context, getClass())));
 			
@@ -331,7 +336,7 @@ public class SEAdWidget extends AppWidgetProvider {
 			 try { 
 				  
 				  AdBoxDownloader adbox = new AdBoxDownloader(context);
-				  imageL = adbox.GetAdBox2();
+				  imageL = adbox.GetAdBox();
 		    
 	         } catch (Exception e) {
 	             Log.e("NewsApp", "예외발생 :"+e.getMessage());
@@ -344,8 +349,7 @@ public class SEAdWidget extends AppWidgetProvider {
 		  protected void onPostExecute(List<HashMap<String, String>> result) {
 			  super.onPostExecute(result);
 			  //Toast.makeText(context, "onPostExecute", Toast.LENGTH_SHORT).show();
-			  //여기서 서버로 포인트를 보내볼까
-		  
+			  //여기서 서버로 포인트를 보내볼까		  
 		 } 
 	}
 	

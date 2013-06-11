@@ -29,6 +29,8 @@ import android.util.Log;
 public class Login {
 	private static String Root;
 	private static String Login_CODE = "0";
+	private static String MEMBER = "";
+	private static HashMap MM = new HashMap();
 	
 	/*
 	 *  public static Header SUCCESS              = new Header("100", "SUCCESS");
@@ -45,7 +47,7 @@ public class Login {
 		this.Root = _Root;
     }
 	
-	public static String Check(String id, String pw){	
+	public static HashMap Check(String id, String pw){	
 		
 		try {
 			URL url;			
@@ -71,27 +73,40 @@ public class Login {
 
                     Login_CODE = code.getFirstChild().getNodeValue();
 	            }
+	            
+	          //정보로 구성된 리스트를 얻어온다.
+	            NodeList n2 = docEle.getElementsByTagName("member");
+	            if (n2 != null && n2.getLength() > 0) {
+	            	Element entry = (Element)n2.item(0);
+                    Element name = (Element)entry.getElementsByTagName("name").item(0);
+
+                    MEMBER = name.getFirstChild().getNodeValue();
+	            }
+	            
+	            MM.put("Login_CODE", Login_CODE);
+	            MM.put("MEMBER", MEMBER);
 	        }
 	    } catch (MalformedURLException e) {
-	        e.printStackTrace();
+	    	Log.e("Login", "예외발생 :"+e.getMessage());
 	    } catch (IOException e) {
-	        e.printStackTrace();
+	    	Log.e("Login", "예외발생 :"+e.getMessage());
 	    } catch (ParserConfigurationException e) {
-	        e.printStackTrace();
+	    	Log.e("Login", "예외발생 :"+e.getMessage());
 	    } catch (SAXException e) {
-	        e.printStackTrace();
+	    	Log.e("Login", "예외발생 :"+e.getMessage());
 	    } finally {
 	    }
 		
 		Log.e("LOGIN_STATUS", "ID : " + id + " PW : " + pw + " CODE l " + Login_CODE);
 		
-		return Login_CODE;
+		return MM;
 	}
-		
 	
 	
-	public static String Check2(String id, String pw){		
-		return "100";
+	public static HashMap Check2(String id, String pw){		
+		MM.put("Login_CODE", "100");
+        MM.put("MEMBER", "김진만");
+        return MM;
 	    
 	}	
 	

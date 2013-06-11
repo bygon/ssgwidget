@@ -53,7 +53,7 @@ public class AdBoxDownloader {
 	        connection = url.openConnection();
 
 	        HttpURLConnection httpConnection = (HttpURLConnection)connection;
-	        int responseCode = httpConnection.getResponseCode();	        
+	        int responseCode = httpConnection.getResponseCode();
 	        
 	        if (responseCode == HttpURLConnection.HTTP_OK) {
 	        	InputStream in = httpConnection.getInputStream(); 
@@ -64,16 +64,25 @@ public class AdBoxDownloader {
 	            Element docEle = dom.getDocumentElement();
 	            
 	            //정보로 구성된 리스트를 얻어온다.
-	            NodeList nl = docEle.getElementsByTagName("campaign");
+	            NodeList nl = docEle.getElementsByTagName("campaign");	            
+	            
 	            if (nl != null && nl.getLength() > 0) {
 	                for (int i = 0 ; i < nl.getLength(); i++) {
 	                    Element entry = (Element)nl.item(i);
 	                    Element IMG_URL = (Element)entry.getElementsByTagName("image").item(0);
 	                    Element LINK_URL = (Element)entry.getElementsByTagName("url").item(0);
-
-	                    String IMG_URLS = IMG_URL.getFirstChild().getNodeValue();
-	                    String LINK_URLS = LINK_URL.getFirstChild().getNodeValue();
 	                    
+	                    String IMG_URLS = "";
+	                    String LINK_URLS = "";
+	                    
+	                    
+	                    if(IMG_URL.hasChildNodes()){
+	                    	IMG_URLS = IMG_URL.getFirstChild().getNodeValue();
+	                    }
+	                    
+	                    if(LINK_URL.hasChildNodes()){
+	                    	LINK_URLS = LINK_URL.getFirstChild().getNodeValue();
+	                    }
 	                    HashMap map = new HashMap();
 	    				map.put("IMG_URL", context.getString(R.string.serverip) + IMG_URLS);
 	    				map.put("LINK_URL", LINK_URLS);
@@ -83,13 +92,13 @@ public class AdBoxDownloader {
 	            }
 	        }
 	    } catch (MalformedURLException e) {
-	        e.printStackTrace();
+	    	 Log.e("AdBoxDownloader", "예외발생 :"+e.getMessage());
 	    } catch (IOException e) {
-	        e.printStackTrace();
+	    	 Log.e("AdBoxDownloader", "예외발생 :"+e.getMessage());
 	    } catch (ParserConfigurationException e) {
-	        e.printStackTrace();
+	    	 Log.e("AdBoxDownloader", "예외발생 :"+e.getMessage());
 	    } catch (SAXException e) {
-	        e.printStackTrace();
+	    	 Log.e("AdBoxDownloader", "예외발생 :"+e.getMessage());
 	    } finally {
 	    }
 		
