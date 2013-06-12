@@ -16,6 +16,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
 import android.widget.RemoteViews;
 
 import com.se.img.AdBoxDownloader;
@@ -168,7 +169,12 @@ public class SEAdWidget extends AppWidgetProvider {
 			IMG_URL = "";
 			//imageL.clear();
 			
-			views.setImageViewResource(R.id.addImage, R.drawable.sinc5_ui_wid_regbtn);			
+			views.setImageViewResource(R.id.addImage, R.drawable.sinc5_ui_wid_regbtn);
+			views.setImageViewResource(R.id.addImage, R.drawable.sinc5_ui_wid_regbtn);
+			views.setViewVisibility(R.id.NoticeImg, View.INVISIBLE);
+			views.setViewVisibility(R.id.Notice, View.INVISIBLE);
+			views.setTextViewText(R.id.Notice, "");
+			
 			for (int appWidgetId : appWidgetIds) {
 				appWidgetManager.updateAppWidget(appWidgetId, views);
 			}
@@ -214,7 +220,11 @@ public class SEAdWidget extends AppWidgetProvider {
 			
 		}else{
 			
-			views.setImageViewResource(R.id.addImage, R.drawable.sinc5_ui_wid_regbtn);			
+			views.setImageViewResource(R.id.addImage, R.drawable.sinc5_ui_wid_regbtn);
+			views.setViewVisibility(R.id.NoticeImg, View.INVISIBLE);
+			views.setViewVisibility(R.id.Notice, View.INVISIBLE);
+			views.setTextViewText(R.id.Notice, "");
+			
 			for (int appWidgetId : appWidgetIds) {
 				appWidgetManager.updateAppWidget(appWidgetId, views);
 			}

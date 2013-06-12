@@ -13,25 +13,28 @@
     />
      
      <LinearLayout
-         android:layout_width="305dp"
+         android:layout_width="wrap_content"
          android:layout_height="wrap_content"
-         android:gravity="left"
-         android:paddingTop="20dp" >
+         android:layout_gravity="center_vertical"
+         android:layout_marginTop="20dp"
+         android:gravity="left" >
 		    
 	    <ImageView
 	        android:id="@+id/account"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:src="@drawable/sinc5_ui_06_map_mark" />
+	        android:layout_marginLeft="20dp"
+	        android:layout_marginTop="15dp"
+	        android:src="@drawable/sinc5_lauch_images1" />
 	
 	    <TextView
 	        android:id="@+id/idtxt"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:layout_marginTop="50dp"
+	        android:layout_marginLeft="10dp"
+	        android:text="현재 아래의 계정으로 등록되어 있습니다.\n강위민(wmkan22222222222222g)\n\n계정 변경을 원하실 경우, 아래버튼을 눌러주세요."
 	        android:textColor="#353535"
-	        android:textSize="18sp"
-	        android:text="안녕하세요!" />
+	        android:textSize="15sp" />
 		    		    
 	</LinearLayout>
 	

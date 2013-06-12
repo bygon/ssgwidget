@@ -28,14 +28,35 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:src="@drawable/sinc5_ui_03_text_bg33" />
+                android:src="@drawable/manual1" />
             
             <ImageView
                 android:id="@+id/m2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:src="@drawable/sinc5_ui_03_text_bg33" />
+                android:src="@drawable/manual2" />
+            
+            <ImageView
+                android:id="@+id/m3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/manual3" />
+            
+            <ImageView
+                android:id="@+id/m4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/manual4" />
+            
+            <ImageView
+                android:id="@+id/m5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/manual5" />
 		    
 		</LinearLayout>
     
