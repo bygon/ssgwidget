@@ -105,36 +105,47 @@ public class Account extends TitleActivity {
 				public void onClick(View v) {					
 					
 					Login log = new Login(getString(R.string.serverip) + getString(R.string.loginroot));
-					MM = log.Check(id.getText().toString(), pw.getText().toString());
 					
-					if(MM.size() > 0){
+					String errmsg = "";
 					
-						if(MM.get("Login_CODE").toString().equals("100") || MM.get("Login_CODE").toString().equals("110")){
-					    	SharedPreferences.Editor editor = pref.edit();
-						    editor.putBoolean("ADING", true); 
-						    editor.putString("ID", id.getText().toString()); 
-						    editor.putString("PW", pw.getText().toString());
-						    editor.putString("NAME", MM.get("MEMBER").toString());
-						    editor.commit();
-						    
-						    finish();
-					    }else{
-					    	Toast toast = Toast.makeText(Account.this, "로그인 정보가 일치하지 않습니다.", Toast.LENGTH_SHORT);
-					    	int xOffset = 0;
-					    	int yOffset = -120;
-					    	toast.setGravity(Gravity.CENTER, xOffset, yOffset);
-					    	toast.show();
-					    	
-					    	//Toast.makeText(Account.this, "로그인 정보가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
-					    }
-					}else{
-						Toast toast = Toast.makeText(Account.this, "로그인 정보가 일치하지 않습니다.", Toast.LENGTH_SHORT);
+					if(pw.getText().toString().equals("")){
+						errmsg = "비밀번호를 입력하세요.";						
+					}	
+					
+					if(id.getText().toString().equals("")){
+						errmsg = "아이디를 입력하세요.";
+					}									
+					
+					if(errmsg.equals("")){
+						
+						MM = log.Check(id.getText().toString(), pw.getText().toString());
+						
+						if(MM.size() > 0){
+						
+							if(MM.get("Login_CODE").toString().equals("100") || MM.get("Login_CODE").toString().equals("110")){
+						    	SharedPreferences.Editor editor = pref.edit();
+							    editor.putBoolean("ADING", true); 
+							    editor.putString("ID", id.getText().toString()); 
+							    editor.putString("PW", pw.getText().toString());
+							    editor.putString("NAME", MM.get("MEMBER").toString());
+							    editor.commit();
+							    
+							    finish();
+						    }else{					    	
+						    	errmsg =  "로그인 정보가 일치하지 않습니다.";
+						    }
+						}else{
+							errmsg =  "계정정보를 확인 할 수 없습니다.";				    	
+						}
+					}
+					
+					
+					if(!errmsg.equals("")){
+						Toast toast = Toast.makeText(Account.this, errmsg, Toast.LENGTH_SHORT);
 				    	int xOffset = 0;
 				    	int yOffset = -120;
 				    	toast.setGravity(Gravity.CENTER, xOffset, yOffset);
 				    	toast.show();
-				    	
-						//Toast.makeText(Account.this, "로그인 정보가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
 					}
 				}
 			});
