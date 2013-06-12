@@ -351,8 +351,7 @@ public class SEAdWidget extends AppWidgetProvider {
 		  @Override
 		 protected List<HashMap<String, String>> doInBackground(String... params) {		  
 			    			  
-			 try { 
-				  
+			 try {
 				  AdBoxDownloader adbox = new AdBoxDownloader(context);
 				  imageL = adbox.GetAdBox();
 		    

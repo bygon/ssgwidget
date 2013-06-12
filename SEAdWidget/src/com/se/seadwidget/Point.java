@@ -30,7 +30,7 @@ public class Point extends TitleActivity {
 		
 		if(pref.getString("ID",  "").length() > 0){
 			//idtxt.setText("안녕하세요 " + pref.getString("NAME",  "")  +  "님!");
-			idtxt.setText(pref.getString("NAME",  "") + " 님의 포인트");
+			idtxt.setText(pref.getString("NAME",  "") + " 님의 적립포인트");
 			Intent intent = getIntent(); 
 			String Point = intent.getStringExtra("Point");
 			String TotPoint = intent.getStringExtra("TotPoint");
@@ -46,7 +46,7 @@ public class Point extends TitleActivity {
 				
 				@Override
 				public void onClick(View v) {					
-				    finish();
+					finish();
 				}
 			});		
 			
@@ -65,8 +65,6 @@ public class Point extends TitleActivity {
 				}
 			});		
 		}
-		
-			
 	}
 	
 }

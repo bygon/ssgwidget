@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -118,10 +119,22 @@ public class Account extends TitleActivity {
 						    
 						    finish();
 					    }else{
-					    	Toast.makeText(Account.this, "로그인 정보가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
+					    	Toast toast = Toast.makeText(Account.this, "로그인 정보가 일치하지 않습니다.", Toast.LENGTH_SHORT);
+					    	int xOffset = 0;
+					    	int yOffset = -120;
+					    	toast.setGravity(Gravity.CENTER, xOffset, yOffset);
+					    	toast.show();
+					    	
+					    	//Toast.makeText(Account.this, "로그인 정보가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
 					    }
 					}else{
-						Toast.makeText(Account.this, "로그인 정보가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
+						Toast toast = Toast.makeText(Account.this, "로그인 정보가 일치하지 않습니다.", Toast.LENGTH_SHORT);
+				    	int xOffset = 0;
+				    	int yOffset = -120;
+				    	toast.setGravity(Gravity.CENTER, xOffset, yOffset);
+				    	toast.show();
+				    	
+						//Toast.makeText(Account.this, "로그인 정보가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
 					}
 				}
 			});

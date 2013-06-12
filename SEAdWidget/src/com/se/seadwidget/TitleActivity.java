@@ -37,7 +37,7 @@ public class TitleActivity extends Activity implements android.view.View.OnClick
 			}else{
 				ll.setBackgroundDrawable(getResources().getDrawable(R.drawable.sinc5_ui_abar_title_new1));
 			}
-		}		
+		}
 		
 		closeBtn = (Button)findViewById(R.id.closeBtn);
 		closeBtn.setOnClickListener(this);
