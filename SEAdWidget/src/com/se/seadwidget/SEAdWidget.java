@@ -45,7 +45,8 @@ public class SEAdWidget extends AppWidgetProvider {
 	private static HashMap imageMap = new HashMap();//정보 넣을 해쉬맵	
 	private static String IMG_URL = "";					//현재이미지
 	private static String LINK_URL = "";				//현재광고
-
+	private static String NOTICE = "";					//공지사항
+	
 	private static final int WIDGET_UPDATE_INTERVAL = 5000; // 7초마다 갱신	
 	private static int rid = R.layout.widget_main;	//위젯 메인 레이아웃
 	
@@ -53,7 +54,7 @@ public class SEAdWidget extends AppWidgetProvider {
 	private static String Year = "";
 	private static String Month = "";
 	private static String Day = "";
-	private static boolean pointB = false;
+	private static boolean PoinPlus = false;
 			
 	@Override
 	public void onEnabled(Context context) {
@@ -89,6 +90,7 @@ public class SEAdWidget extends AppWidgetProvider {
 	@Override
 	public void onDeleted(Context context, int[] appWidgetIds) {
 		super.onDeleted(context, appWidgetIds);
+		imageL.clear();
 	}
 
 	@Override
@@ -141,17 +143,22 @@ public class SEAdWidget extends AppWidgetProvider {
 				m = (HashMap)imageL.get(0);
 				IMG_URL = m.get("IMG_URL").toString();
 				LINK_URL = m.get("LINK_URL").toString();
+				
+				if(m.get("NOTICE") != null){
+					NOTICE = m.get("NOTICE").toString();
+				}
+				
 				imageL.remove(0);	//맨첫번째꺼를 계속 빼먹는다.
 				
 				if(imageL.size() == 0){
 					point++;	//광고 박스 다볼때 포인트 쌓아준다.
-					pointB = true;
+					PoinPlus = true;
 				}else{
-					pointB = false;
+					PoinPlus = false;
 				}
 				
 				//광고이미지를 비동기로 가져온다 		
-				ImageDownloaderAsynkTask imageDownTask = new ImageDownloaderAsynkTask(IMG_URL, views,appWidgetIds, appWidgetManager, this.context, pointB);
+				ImageDownloaderAsynkTask imageDownTask = new ImageDownloaderAsynkTask(IMG_URL, views,appWidgetIds, appWidgetManager, this.context, PoinPlus, NOTICE);
 				imageDownTask.execute(IMG_URL);
 			}		
 			
@@ -159,7 +166,7 @@ public class SEAdWidget extends AppWidgetProvider {
 			idx = 0;	//로그아웃시 광고 클리어
 			LINK_URL = "";
 			IMG_URL = "";
-			imageL.clear();
+			//imageL.clear();
 			
 			views.setImageViewResource(R.id.addImage, R.drawable.sinc5_ui_wid_regbtn);			
 			for (int appWidgetId : appWidgetIds) {
@@ -202,7 +209,7 @@ public class SEAdWidget extends AppWidgetProvider {
 		if(ADING){	//계정등록 한다면.... 광고 넣어준다.
 			
 			//현재 셋팅된 광고이미지를 비동기로 가져온다 		
-			ImageDownloaderAsynkTask imageDownTask = new ImageDownloaderAsynkTask(IMG_URL, views, appWidgetIds, appWidgetManager, this.context, pointB);
+			ImageDownloaderAsynkTask imageDownTask = new ImageDownloaderAsynkTask(IMG_URL, views, appWidgetIds, appWidgetManager, this.context, PoinPlus, NOTICE);
 			imageDownTask.execute(IMG_URL);
 			
 		}else{
@@ -240,7 +247,7 @@ public class SEAdWidget extends AppWidgetProvider {
 			long firstTime = System.currentTimeMillis() + WIDGET_UPDATE_INTERVAL;
 			mSender = PendingIntent.getBroadcast(context, 0, intent, 0);
 			alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-			alarmManager.set(AlarmManager.RTC, firstTime, mSender);		
+			alarmManager.set(AlarmManager.RTC, firstTime, mSender);
 			
 		} else if (AppWidgetManager.ACTION_APPWIDGET_DELETED.equals(action)) {
 			// 등록한 알람 제거
@@ -278,6 +285,7 @@ public class SEAdWidget extends AppWidgetProvider {
 			}else{
 				callActivity(context, CUSTOMER_ACCOUNT);
 			}
+			
 		}
 	}
 
@@ -290,13 +298,13 @@ public class SEAdWidget extends AppWidgetProvider {
 		switch (pageIdx) {
 			case CUSTOMER_MENUAL:
 				intent = new Intent("com.se.seadwidget.ACTION_MENUAL");
-				intent.putExtra("src", "sinc5_ui_02_abar4");
+				intent.putExtra("src", "sinc5_ui_abar_title_new1");
 				break;
 				
 			case CUSTOMER_ACCOUNT:
 				intent = new Intent("com.se.seadwidget.ACTION_ACCOUNT");				
 				intent.putExtra("src", "sinc5_ui_02_abar1");
-				intent.putExtra("Point", point + ""); //포인트화면에 당일포인트 전달
+				intent.putExtra("Point", point + ""); //포인트화면에 당일포인트 전달				
 				break;
 				
 			case CUSTOMER_POINT:

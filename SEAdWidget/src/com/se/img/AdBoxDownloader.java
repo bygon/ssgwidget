@@ -86,6 +86,16 @@ public class AdBoxDownloader {
 	                    HashMap map = new HashMap();
 	    				map.put("IMG_URL", context.getString(R.string.serverip) + IMG_URLS);
 	    				map.put("LINK_URL", LINK_URLS);
+	    				
+	    				NodeList n2 = docEle.getElementsByTagName("announce");	//걍 하나만 가져와서 광고많큼 담아버리자....
+	    				if (n2 != null && n2.getLength() > 0) {
+	    					Element entry2 = (Element)n2.item(0);
+		                    Element NOTICE = (Element)entry2.getElementsByTagName("message").item(0);
+		                    if(NOTICE.hasChildNodes()){
+		                    	String NOTICES = NOTICE.getFirstChild().getNodeValue();
+		                    	map.put("NOTICE", NOTICES);
+		                    }
+	    				}
 	    						    				
 	    				imageL.add(map);
 	                }
@@ -122,6 +132,7 @@ public class AdBoxDownloader {
 				HashMap map = new HashMap();
 				map.put("LINK_URL", json.getString("LINK_URL"));
 				map.put("IMG_URL", json.getString("IMG_URL"));
+				map.put("NOTICE", "신세계 애드 서비스가 오픈되었습니다.");
 				
 				imageL.add(map);
 			}         

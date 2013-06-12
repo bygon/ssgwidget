@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -32,7 +33,7 @@ public class Account extends TitleActivity {
 	private HashMap MM = new HashMap();
 	private ATools tools = new ATools();
 	private static final boolean DEVELOPER_MODE = true;
-	
+		
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -59,7 +60,7 @@ public class Account extends TitleActivity {
 			Intent intent = getIntent(); 
 			String Point = intent.getStringExtra("Point");			
 			
-			idtxt.setText("안녕하세요! " + pref.getString("NAME",  "")  +  "님\nTODAY " + tools.moneyFmt(Point) + "포인트 적립되었습니다.");
+			idtxt.setText("안녕하세요 " + pref.getString("NAME",  "")  +  "님!\nTODAY " + tools.moneyFmt(Point) + "포인트 적립되었습니다.");
 			
 			logout.setOnClickListener(new View.OnClickListener() {
 				
