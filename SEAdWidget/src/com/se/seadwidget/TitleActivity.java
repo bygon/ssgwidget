@@ -32,10 +32,10 @@ public class TitleActivity extends Activity implements android.view.View.OnClick
 				ll.setBackgroundDrawable(getResources().getDrawable(R.drawable.sinc5_ui_02_abar1));
 			}else if(src.equals("sinc5_ui_02_abar2")){
 				ll.setBackgroundDrawable(getResources().getDrawable(R.drawable.sinc5_ui_02_abar2));
-			}else if(src.equals("sinc5_ui_02_abar4")){
-				ll.setBackgroundDrawable(getResources().getDrawable(R.drawable.sinc5_ui_02_abar4));
+			}else if(src.equals("sinc5_ui_abar_title_new1")){
+				ll.setBackgroundDrawable(getResources().getDrawable(R.drawable.sinc5_ui_abar_title_new1));
 			}else{
-				ll.setBackgroundDrawable(getResources().getDrawable(R.drawable.sinc5_ui_02_abar4));
+				ll.setBackgroundDrawable(getResources().getDrawable(R.drawable.sinc5_ui_abar_title_new1));
 			}
 		}		
 		

@@ -26,9 +26,10 @@ public class ImageDownloaderAsynkTask extends AsyncTask<String, Void, Bitmap>
 	public AppWidgetManager widgetManager;
 	public RemoteViews rViews;
 	public Context context;
-	public boolean pointB;
+	public boolean PoinPlus;
+	public String Notice;
 
-	public ImageDownloaderAsynkTask(String url, RemoteViews imageView, int[] appWidgetIds, AppWidgetManager appWidgetManager, Context context, boolean pointB)
+	public ImageDownloaderAsynkTask(String url, RemoteViews imageView, int[] appWidgetIds, AppWidgetManager appWidgetManager, Context context, boolean PoinPlus, String Notice)
 	{
 		Log.e("ImageDownloaderAsynkTask", "url = " +url);
 		this.targetUrl = url;
@@ -36,7 +37,8 @@ public class ImageDownloaderAsynkTask extends AsyncTask<String, Void, Bitmap>
 		this.widgetIds = appWidgetIds;
 		this.widgetManager = appWidgetManager;
 		this.context = context;
-		this.pointB = pointB;
+		this.PoinPlus = PoinPlus;
+		this.Notice = Notice;
 	}
 	
 	@Override
@@ -67,12 +69,20 @@ public class ImageDownloaderAsynkTask extends AsyncTask<String, Void, Bitmap>
 		
 		rViews.setImageViewBitmap(R.id.addImage, bitmap);	//이제 이미지를 올려보자...		
 		
-		if(pointB){
-			rViews.setViewVisibility(R.id.pointB, View.VISIBLE);
-			
-			rViews.setTextViewText(R.id.AdText, "1포인트 적립되었습니다.");
+		if(PoinPlus){
+			rViews.setViewVisibility(R.id.PoinPlus, View.VISIBLE);
 		}else{
-			rViews.setViewVisibility(R.id.pointB, View.INVISIBLE);
+			rViews.setViewVisibility(R.id.PoinPlus, View.INVISIBLE);
+		}
+    	
+		if(Notice.length() > 0){
+			rViews.setViewVisibility(R.id.NoticeImg, View.VISIBLE);
+			rViews.setViewVisibility(R.id.Notice, View.VISIBLE);
+			rViews.setTextViewText(R.id.Notice, Notice);
+		}else{
+			rViews.setViewVisibility(R.id.NoticeImg, View.INVISIBLE);
+			rViews.setViewVisibility(R.id.Notice, View.INVISIBLE);
+			rViews.setTextViewText(R.id.Notice, "");
 		}
 		
 		for (int appWidgetId : widgetIds) {					//이미지를 올렸으면 위젯 갱신

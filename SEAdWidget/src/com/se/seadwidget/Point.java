@@ -29,7 +29,7 @@ public class Point extends TitleActivity {
 		idtxt = (TextView)findViewById(R.id.idtxt);		
 		
 		if(pref.getString("ID",  "").length() > 0){
-			idtxt.setText("안녕하세요! " + pref.getString("NAME",  "")  +  "님");
+			idtxt.setText("안녕하세요 " + pref.getString("NAME",  "")  +  "님!");
 			Intent intent = getIntent(); 
 			String Point = intent.getStringExtra("Point");
 			String TotPoint = intent.getStringExtra("TotPoint");
