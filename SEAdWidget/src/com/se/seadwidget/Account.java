@@ -143,7 +143,7 @@ public class Account extends TitleActivity {
 					if(!errmsg.equals("")){
 						Toast toast = Toast.makeText(Account.this, errmsg, Toast.LENGTH_SHORT);
 				    	int xOffset = 0;
-				    	int yOffset = -120;
+				    	int yOffset = -120;	//키패드때문에 토스트 위치를 좀 올린다.
 				    	toast.setGravity(Gravity.CENTER, xOffset, yOffset);
 				    	toast.show();
 					}
