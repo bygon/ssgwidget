@@ -59,7 +59,8 @@
 		        android:textSize="24sp"
 		        android:gravity="center_vertical|right"
 		        android:paddingRight="10dp"
-		        android:background="@drawable/sinc5_ui_point_bg"/>
+		        android:background="@drawable/sinc5_ui_point_bg"
+		        android:text=""/>
 		    
 	</LinearLayout>
 	
@@ -72,8 +73,7 @@
 	        android:id="@+id/txapoint"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:src="@drawable/sinc5_ui_05_point_item2" />
-        
+	        android:src="@drawable/sinc5_ui_05_point_item2" />        
 		   		    
 		    <TextView
 		        android:id="@+id/apoint"
@@ -84,7 +84,8 @@
 		        android:textSize="24sp"
 		        android:gravity="center_vertical|right"
 		        android:paddingRight="10dp"
-		        android:background="@drawable/sinc5_ui_point_bg"/>
+		        android:background="@drawable/sinc5_ui_point_bg"
+		        android:text=""/>
 		    
 	</LinearLayout>
 	    

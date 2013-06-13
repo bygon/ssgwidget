@@ -29,11 +29,10 @@ public class Point extends TitleActivity {
 		idtxt = (TextView)findViewById(R.id.idtxt);		
 		
 		if(pref.getString("ID",  "").length() > 0){
-			//idtxt.setText("안녕하세요 " + pref.getString("NAME",  "")  +  "님!");
 			idtxt.setText(pref.getString("NAME",  "") + " 님의 적립포인트");
-			Intent intent = getIntent(); 
-			String Point = intent.getStringExtra("Point");
-			String TotPoint = intent.getStringExtra("TotPoint");
+			
+			String TotPoint = pref.getInt("TOTPOINT", 0) + "";
+			String Point = pref.getInt("POINT", 0) + "";
 						
 			apoint = (TextView)findViewById(R.id.apoint); 
 			npoint = (TextView)findViewById(R.id.npoint); 

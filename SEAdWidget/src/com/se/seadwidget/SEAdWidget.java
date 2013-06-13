@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -30,8 +29,6 @@ public class SEAdWidget extends AppWidgetProvider {
 	private static final String TAG = "SEAdWidget";
 	private static Context context;
 	private static int idx = 0;
-	private static int point = 0;
-	private static int totpoint = 0;
 	private static String Point_Day = "";
 	
 	private static Boolean isOpen = false;
@@ -56,6 +53,8 @@ public class SEAdWidget extends AppWidgetProvider {
 	private static String Month = "";
 	private static String Day = "";
 	private static boolean PoinPlus = false;
+	private static SharedPreferences pref = null;
+	private static RemoteViews views;
 			
 	@Override
 	public void onEnabled(Context context) {
@@ -65,17 +64,21 @@ public class SEAdWidget extends AppWidgetProvider {
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 		//Toast.makeText(context, "onUpdate > " + imageL.size() + " MENU " + isOpen, Toast.LENGTH_SHORT).show();	
-		Log.e("onUpdate", "onUpdate");		
-				
-		now =  Calendar.getInstance();		
-		Year = Integer.toString(now.get(Calendar.YEAR));		
-		Month = Integer.toString(now.get(Calendar.MONTH));
-		Day = Integer.toString(now.get(Calendar.DATE));		
+		Log.e("onUpdate", "onUpdate");
 		
-		if(Point_Day != (Year + Month + Day)  && now.get(Calendar.HOUR_OF_DAY) == 0){	//24시에 전송
-			totpoint += point;
-			Point_Day =  (Year + Month + Day) ; //누적시킨 시간 값 셋팅
-			point = 0;	//당일포인트 초기화
+		pref = context.getSharedPreferences("ADWIDGET", 0); 	//계정등록이 되었는지 확인하자.
+		
+		if(pref != null){
+			ADING = pref.getBoolean("ADING", false);
+		}
+		
+		if(!ADING){
+			SetPoint("0");	//로그아웃할 경우 포인트 초기화
+		}
+		
+		now =  Calendar.getInstance();		
+		if(now.get(Calendar.HOUR_OF_DAY) == 0 && ADING){	//24시에 전송
+			SetPoint("3");
 		}
 		
 		//서버에서 광고정보를 가져오자..  로긴 안했어도 일단 가져온다. 뿌리는건 로긴 후
@@ -91,7 +94,7 @@ public class SEAdWidget extends AppWidgetProvider {
 	@Override
 	public void onDeleted(Context context, int[] appWidgetIds) {
 		super.onDeleted(context, appWidgetIds);
-		imageL.clear();
+		imageL.clear();		
 	}
 
 	@Override
@@ -103,11 +106,7 @@ public class SEAdWidget extends AppWidgetProvider {
 	 * UI 설정 이벤트 설정
 	 */
 	public void initUI(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-		RemoteViews views;
-		SharedPreferences pref = context.getSharedPreferences("ADWIDGET", 0); 	//계정등록이 되었는지 확인하자.
-		if(pref != null){
-			ADING = pref.getBoolean("ADING", false);
-		}		
+		Log.e("initUI", "initUI");
 		
 		if(isOpen){	//메뉴 레이아웃 분개
 			rid = R.layout.widget_main_r;
@@ -137,7 +136,6 @@ public class SEAdWidget extends AppWidgetProvider {
 						
 		if(ADING){		//계정등록 한다면.... 광고 넣어준다.
 			idx++;
-			//point++;	//이미지 바뀔때마다 포인트를 줘볼까?
 			
 			if(imageL.size() > 0){
 				HashMap m = new HashMap();	//가져온광고에서 첫번째꺼를 빼오고 지운다.... 다지우면 다시 가져오기
@@ -152,7 +150,8 @@ public class SEAdWidget extends AppWidgetProvider {
 				imageL.remove(0);	//맨첫번째꺼를 계속 빼먹는다.
 				
 				if(imageL.size() == 0){
-					point++;	//광고 박스 다볼때 포인트 쌓아준다.
+									    
+				    SetPoint("1");	// 포인트 적립				    
 					PoinPlus = true;
 				}else{
 					PoinPlus = false;
@@ -167,7 +166,6 @@ public class SEAdWidget extends AppWidgetProvider {
 			idx = 0;	//로그아웃시 광고 클리어
 			LINK_URL = "";
 			IMG_URL = "";
-			//imageL.clear();
 			
 			views.setImageViewResource(R.id.addImage, R.drawable.sinc5_ui_wid_regbtn);
 			views.setImageViewResource(R.id.addImage, R.drawable.sinc5_ui_wid_regbtn);
@@ -314,13 +312,10 @@ public class SEAdWidget extends AppWidgetProvider {
 			case CUSTOMER_ACCOUNT:
 				intent = new Intent("com.se.seadwidget.ACTION_ACCOUNT");				
 				intent.putExtra("src", "sinc5_ui_02_abar1");
-				intent.putExtra("Point", point + ""); //포인트화면에 당일포인트 전달				
 				break;
 				
 			case CUSTOMER_POINT:
-				intent = new Intent("com.se.seadwidget.ACTION_POINT");
-				intent.putExtra("Point", point + ""); //포인트화면에 당일포인트 전달
-				intent.putExtra("TotPoint", totpoint + ""); //포인트화면에 누적포인트 전달
+				intent = new Intent("com.se.seadwidget.ACTION_POINT");				
 				intent.putExtra("src", "sinc5_ui_02_abar2");
 				break;
 				
@@ -334,18 +329,55 @@ public class SEAdWidget extends AppWidgetProvider {
 			default:
 				break;
 		}
-
+		
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		context.startActivity(intent);
 	}
-
+	
+	public void SetPoint(String ptype){
+		
+		if(pref != null){
+		
+			SharedPreferences.Editor editor = pref.edit();
+			
+			if(ptype.equals("0")){	//로그아웃
+				editor.putInt("POINT", 0);
+				editor.putInt("TOTPOINT", 0);
+			    editor.commit();			
+				
+			}else if(ptype.equals("1")){	//당일포인트
+				int point = pref.getInt("POINT", 0);			
+			    editor.putInt("POINT", ++point);
+			    editor.commit();
+			    
+			}else if(ptype.equals("2")){	//24시 누적포인트
+				
+				now =  Calendar.getInstance();
+				Year = Integer.toString(now.get(Calendar.YEAR));		
+				Month = Integer.toString(now.get(Calendar.MONTH));
+				Day = Integer.toString(now.get(Calendar.DATE));
+				
+				if(pref.getString("PUPDAY", (Year + Month + Day)) != (Year + Month + Day)){	//24시에 전송
+					int point = pref.getInt("POINT", 0);
+					int totpoint = pref.getInt("TOTPOINT", 0);
+					
+				    editor.putInt("POINT", 0);	//당일포인트는 초기화
+				    editor.putInt("TOTPOINT", point + totpoint);
+				    editor.putString("PUPDAY", (Year + Month + Day));
+				    editor.commit();
+					
+				}
+			}
+		}
+	}
+	
 	public void removePreviousAlarm() {
 		if (alarmManager != null && mSender != null) {
 			mSender.cancel();
 			alarmManager.cancel(mSender);
 		}
-	}	
-	
+	}
+		
 	public class DownLoadUrlAsynkTask extends AsyncTask<String, Void, List<HashMap<String, String>>>{		
 
 		  @Override
@@ -366,7 +398,7 @@ public class SEAdWidget extends AppWidgetProvider {
 		  protected void onPostExecute(List<HashMap<String, String>> result) {
 			  super.onPostExecute(result);
 			  //Toast.makeText(context, "onPostExecute", Toast.LENGTH_SHORT).show();
-			  //여기서 서버로 포인트를 보내볼까		  
+			  //여기서 서버로 포인트를 보내볼까
 		 } 
 	}
 	

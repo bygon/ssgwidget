@@ -58,11 +58,6 @@ public class Account extends TitleActivity {
 			logout = (Button)findViewById(R.id.logout);
 			idtxt = (TextView)findViewById(R.id.idtxt);
 			
-			Intent intent = getIntent(); 
-			String Point = intent.getStringExtra("Point");			
-			
-			//idtxt.setText("안녕하세요 " + pref.getString("NAME",  "")  +  "님!\nTODAY " + tools.moneyFmt(Point) + "포인트 적립되었습니다.");
-			
 			idtxt.setText("현재 아래의 계정으로 등록되어 있습니다.\n" + pref.getString("NAME",  "")  +  "(" + pref.getString("ID",  "") + ")\n\n계정 변경을 원하실 경우, 아래 버튼을 눌러주세요.");
 						
 			logout.setOnClickListener(new View.OnClickListener() {
@@ -70,13 +65,17 @@ public class Account extends TitleActivity {
 				@Override
 				public void onClick(View v) {
 					SharedPreferences.Editor editor = pref.edit();
-				    editor.putBoolean("ADING", false); 
-				    editor.putString("ID", ""); 
-				    editor.putString("PW", ""); 
+					editor.remove("ADING");
+					editor.remove("ID");
+					editor.remove("PW");
+					editor.remove("NAME");
+					editor.remove("POINT");
+					editor.remove("TOTPOINT");
+					editor.remove("PUPDAY");
 				    editor.commit();
 				    
+				    finish();				    
 				    //Toast.makeText(Account.this, "ADING 제거 완료", Toast.LENGTH_SHORT).show();
-				    finish();
 				}
 			});			
 		}else{
