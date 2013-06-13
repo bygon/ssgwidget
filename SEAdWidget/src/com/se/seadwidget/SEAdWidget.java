@@ -29,8 +29,7 @@ public class SEAdWidget extends AppWidgetProvider {
 	private static final String TAG = "SEAdWidget";
 	private static Context context;
 	private static int idx = 0;
-	private static String Point_Day = "";
-	
+	private static int Pidx = 0;	
 	private static Boolean isOpen = false;
 
 	private static final int CUSTOMER_MENUAL  = 1;	//매뉴얼
@@ -45,7 +44,7 @@ public class SEAdWidget extends AppWidgetProvider {
 	private static String LINK_URL = "";				//현재광고
 	private static String NOTICE = "";					//공지사항
 	
-	private static final int WIDGET_UPDATE_INTERVAL = 5000; // 7초마다 갱신	
+	private static final int WIDGET_UPDATE_INTERVAL = 3000; // 7초마다 갱신	
 	private static int rid = R.layout.widget_main;	//위젯 메인 레이아웃
 	
 	private static Calendar now;
@@ -113,7 +112,7 @@ public class SEAdWidget extends AppWidgetProvider {
 		}else{
 			rid = R.layout.widget_main;
 		}
-		
+		RemoteViews views;
 		views = new RemoteViews(context.getPackageName(), rid);	//메뉴 누를 때		
 		Intent mintent = new Intent(Const.ACTION_MENU);
 		Intent sintent = new Intent(Const.ACTION_MENUAL);
@@ -149,13 +148,21 @@ public class SEAdWidget extends AppWidgetProvider {
 				
 				imageL.remove(0);	//맨첫번째꺼를 계속 빼먹는다.
 				
-				if(imageL.size() == 0){
-									    
-				    SetPoint("1");	// 포인트 적립				    
+//				if(imageL.size() == 0){
+//									    
+//				    SetPoint("1");	// 포인트 적립				    
+//					PoinPlus = true;
+//				}else{
+//					PoinPlus = false;
+//				}
+				Pidx++;
+				
+				if(Pidx%2 == 0){
 					PoinPlus = true;
+					SetPoint("1");	// 포인트 적립
 				}else{
 					PoinPlus = false;
-				}
+				}				
 				
 				//광고이미지를 비동기로 가져온다 		
 				ImageDownloaderAsynkTask imageDownTask = new ImageDownloaderAsynkTask(IMG_URL, views,appWidgetIds, appWidgetManager, this.context, PoinPlus, NOTICE);
@@ -171,6 +178,7 @@ public class SEAdWidget extends AppWidgetProvider {
 			views.setImageViewResource(R.id.addImage, R.drawable.sinc5_ui_wid_regbtn);
 			views.setViewVisibility(R.id.NoticeImg, View.INVISIBLE);
 			views.setViewVisibility(R.id.Notice, View.INVISIBLE);
+			views.setViewVisibility(R.id.PoinPlus, View.INVISIBLE);			
 			views.setTextViewText(R.id.Notice, "");
 			
 			for (int appWidgetId : appWidgetIds) {
@@ -183,7 +191,6 @@ public class SEAdWidget extends AppWidgetProvider {
 	 * 메뉴 설정
 	 */
 	public void initMenu(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {	//메뉴만 누를때 레이아웃만 변경하기
-		RemoteViews views;
 		
 		if(isOpen){	//메뉴 레이아웃 분개
 			rid = R.layout.widget_main_r;
@@ -221,6 +228,7 @@ public class SEAdWidget extends AppWidgetProvider {
 			views.setImageViewResource(R.id.addImage, R.drawable.sinc5_ui_wid_regbtn);
 			views.setViewVisibility(R.id.NoticeImg, View.INVISIBLE);
 			views.setViewVisibility(R.id.Notice, View.INVISIBLE);
+			views.setViewVisibility(R.id.PoinPlus, View.INVISIBLE);
 			views.setTextViewText(R.id.Notice, "");
 			
 			for (int appWidgetId : appWidgetIds) {
