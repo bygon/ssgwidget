@@ -196,4 +196,42 @@ public class AdBoxDownloader {
 		
 		return imageL;
 	}
+	
+	public static List GetAdBox4(){
+		
+		HashMap map1 = new HashMap();
+		map1.put("IMG_URL", R.drawable.img01);
+		map1.put("LINK_URL", "http://m.emart.com/event/eventDetail.emart?eventId=7380&emid=em_ma_06_02");
+		map1.put("NOTICE", "신세계 애드위젯 서비스가 오픈되었습니다~*");
+		
+		HashMap map2 = new HashMap();
+		map2.put("IMG_URL", R.drawable.img05);
+		map2.put("LINK_URL", "http://www.shinsegae.com/culture/academylecture/lecture.jsp");
+		map2.put("NOTICE", "신세계 애드위젯 서비스가 오픈되었습니다~*");
+		
+		HashMap map3 = new HashMap();
+		map3.put("IMG_URL", R.drawable.img02);
+		map3.put("LINK_URL", "http://m.emart.com/event/eventDetail.emart?eventId=8262&emid=em_ec_00_02");
+		map3.put("NOTICE", "신세계 애드위젯 서비스가 오픈되었습니다~*");	
+		
+		HashMap map4 = new HashMap();
+		map4.put("IMG_URL", R.drawable.img03);
+		map4.put("LINK_URL", "http://m.emart.com/event/eventDetail.emart?eventId=8262&emid=em_ec_00_02");
+		map4.put("NOTICE", "신세계 애드위젯 서비스가 오픈되었습니다~*");
+		
+		HashMap map5 = new HashMap();
+		map5.put("IMG_URL", R.drawable.img04);
+		map5.put("LINK_URL", "http://m.emart.com/event/eventDetail.emart?eventId=8262&emid=em_ec_00_02");
+		map5.put("NOTICE", "신세계 애드위젯 서비스가 오픈되었습니다~*");
+		
+		imageL.add(map1);
+		imageL.add(map2);
+		imageL.add(map3);
+		imageL.add(map4);
+		imageL.add(map5);
+		
+		Log.e("ADBOX SIZE : ", imageL.size() + "");
+		    
+		return imageL;
+	}
 }

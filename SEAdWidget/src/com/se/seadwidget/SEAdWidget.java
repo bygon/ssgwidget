@@ -20,6 +20,7 @@ import android.widget.RemoteViews;
 
 import com.se.img.AdBoxDownloader;
 import com.se.img.ImageDownloaderAsynkTask;
+import com.se.img.ImageLocalDownloader;
 
 public class SEAdWidget extends AppWidgetProvider {
 
@@ -147,14 +148,6 @@ public class SEAdWidget extends AppWidgetProvider {
 				}
 				
 				imageL.remove(0);	//맨첫번째꺼를 계속 빼먹는다.
-				
-//				if(imageL.size() == 0){
-//									    
-//				    SetPoint("1");	// 포인트 적립				    
-//					PoinPlus = true;
-//				}else{
-//					PoinPlus = false;
-//				}
 				Pidx++;
 				
 				if(Pidx%2 == 0){
@@ -167,6 +160,9 @@ public class SEAdWidget extends AppWidgetProvider {
 				//광고이미지를 비동기로 가져온다 		
 				ImageDownloaderAsynkTask imageDownTask = new ImageDownloaderAsynkTask(IMG_URL, views,appWidgetIds, appWidgetManager, this.context, PoinPlus, NOTICE);
 				imageDownTask.execute(IMG_URL);
+				
+				//ImageLocalDownloader imageDownTask = new ImageLocalDownloader(Integer.parseInt(IMG_URL), views,appWidgetIds, appWidgetManager, this.context, PoinPlus, NOTICE);
+				//imageDownTask.execute();
 			}		
 			
 		}else{
@@ -174,7 +170,6 @@ public class SEAdWidget extends AppWidgetProvider {
 			LINK_URL = "";
 			IMG_URL = "";
 			
-			views.setImageViewResource(R.id.addImage, R.drawable.sinc5_ui_wid_regbtn);
 			views.setImageViewResource(R.id.addImage, R.drawable.sinc5_ui_wid_regbtn);
 			views.setViewVisibility(R.id.NoticeImg, View.INVISIBLE);
 			views.setViewVisibility(R.id.Notice, View.INVISIBLE);
@@ -373,7 +368,6 @@ public class SEAdWidget extends AppWidgetProvider {
 				    editor.putInt("TOTPOINT", point + totpoint);
 				    editor.putString("PUPDAY", (Year + Month + Day));
 				    editor.commit();
-					
 				}
 			}
 		}
@@ -392,8 +386,8 @@ public class SEAdWidget extends AppWidgetProvider {
 		 protected List<HashMap<String, String>> doInBackground(String... params) {		  
 			    			  
 			 try {
-				  AdBoxDownloader adbox = new AdBoxDownloader(context);
-				  imageL = adbox.GetAdBox();
+				 AdBoxDownloader adbox = new AdBoxDownloader(context);
+			 	imageL = adbox.GetAdBox();
 		    
 	         } catch (Exception e) {
 	             Log.e("NewsApp", "예외발생 :"+e.getMessage());
